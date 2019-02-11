@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" rel="stylesheet" type="text/css"/>
+    <link href="./styles.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,800" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IdeaBox</title>
+  </head>
+  <body>
+    <header class="header-bar">
+      <h1 class="site-name">ideabox<span>triples</span></h1>
+      <div class="search">
+        <input type="search " id="search-term" placeholder="Search">
+        <button type="submit" class="search-btn"><i class="fas fa-search fa-lg"></i></button>
+      </div>
+    </header>
+    <section class="form-section">
+      <form name="newIdea" class="idea-form">
+        <label class="idea-title" for="title">Title</label>
+        <input type="text" id="title" class="idea-title-input">
+        <label class="body-title" for="body">Body</label>
+        <textarea type="text-area" class="idea-body-input" id="body"></textarea> 
+        <button type="submit" class="save-btn">Save</button>
+      </form>
+    </section>
+    <section class="filter-buttons">
+      <button class="genius filter">Genius</button>
+      <button class="plausible filter">Plausible</button>
+      <button class="swill filter">Swill</button>
+    </section>
+    <section class="card-section">
+    </section>
+    <script type="text/javascript" src="./idea.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+  </body>
