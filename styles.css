@@ -1,0 +1,280 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f9f9fa
+}
+
+header {
+  display: flex;
+  background-color: #524649;
+  height: 80px;
+}
+
+h1 {
+  color: #b2a1b1;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-left: 30px;
+}
+
+span {
+  color: #fff;
+}
+
+.search {
+  display: flex;
+  justify-content: flex-end;
+  flex: 25%;
+  margin-right: 30px;
+  align-items: center;
+}
+
+#search-term {
+  border: 2px solid #d2cccd;
+  padding: 5px;
+  height: 22px;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.search-btn {
+  background-color: #d2cccd;
+  height: 36px;
+  border-radius: 0px 5px 5px 0px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #6e646b;
+}
+
+.fa-search {
+  color: #fff;
+  width: 20px;
+}
+
+.form-section {
+  background-color: #eaeaea;
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.idea-form {
+  display: flex;
+  flex-direction: column;
+  width: 55%;
+}
+
+.idea-title-input,
+.idea-body-input {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 2px solid #d2cccd;
+  margin-top: 5px;
+}
+
+.idea-body-input {
+  height: 70px;
+}
+
+.idea-title-input {
+  height: 35px;
+  border-radius: 5px;
+  border: 2px solid #d2cccd;
+  margin-top: 5px;
+}
+
+.idea-title,
+.body-title {
+  color: #7c7879;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.save-btn {
+  color: #fff;
+  font-weight: 800;
+  background-color: #c2c1c0;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background-color: #524649;
+}
+
+.card-section {
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+}
+
+.idea-card {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #d2cccd; 
+  border-radius: 5px;
+  width: 53%;
+  justify-content: flex-end;
+  margin: 20px 0px;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  border-top: 2px solid #d2cccd;
+}
+
+.adjust-buttons {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.quality-down-btn,
+.quality-up-btn {
+  cursor: pointer;
+}
+
+.delete-button {
+  display: flex;
+  cursor: pointer;
+}
+
+.button-image {
+  height: 30px;
+  width: 30px;
+  margin: 4px;
+}
+
+.delete-card-button {
+  display: flex;
+  margin: 3px;
+}
+
+.idea-quality {
+  font-weight: 800;
+  font-size: 15px;
+  color: #7c7879
+}
+
+h2 {
+  color: #6e646b;
+  margin: 10px 0px 5px 10px;
+}
+
+.idea-body-text {
+  color: #7c7879;
+  margin-left: 10px;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filter {
+  color: #fff;
+  font-weight: 800;
+  background-color: #6e646b;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 35px;
+  cursor: pointer;
+  width: 170px;
+  margin: 10px;
+}
+
+.filter:hover {
+  background-color: #534649;
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 1900px) and (max-width:800px) {
+  .idea-form {
+    width: 70%;}
+  
+  .idea-card{
+    width: 68%;
+  }
+}
+
+@media only screen and (min-width:600px) and (max-width:800px) {
+  .idea-form {
+    width: 80%;
+  }
+  
+  .idea-card{
+    width: 78%;
+  }
+}
+
+@media only screen and (max-width:599px) {
+  .idea-form {
+    width: 90%;}
+  
+.idea-card{
+    width: 88%;
+}
+
+.site-name {
+    display: flex;
+    font-size: 44px;
+    margin-left: 0px;
+}
+  header {
+  display: flex;
+  background-color: #524649;
+  height: 150px;
+  flex-direction: column;
+  align-content: center;
+
+}
+
+h1 {
+  color: #b2a1b1;
+  font-weight: 800;
+  margin-left: 10px 0px 20px 10px;
+  align-content:center;
+  justify-content: center;
+}
+  
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+#search-term {
+  width: 80%;
+  margin-left: 20px;
+}
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.filter {
+  color: #fff;
+  font-weight: 800;
+  background-color: #6e646b;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  height: 35px;
+  cursor: pointer;
+  width: 88%;
+  margin: 10px;
+}
+  }
+
