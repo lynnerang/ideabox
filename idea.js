@@ -5,6 +5,9 @@ class ideaCard {
     this.quality = 'swill';
     this.id = id;
   }
+  saveToStorage () {
+    localStorage.setItem("ideaCards", JSON.stringify(ideaCards));
+  }
 }
 
 //function updateContent() {}
