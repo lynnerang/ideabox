@@ -40,6 +40,8 @@ function onSave() {
   ideaCards.push(newCard);
   newCard.saveToStorage(ideaCards);
   displayCard(newCard);
+  newTitle.value = "";
+  newBody.value = "";
 }
 
 function onFocusOut(cardId) {
