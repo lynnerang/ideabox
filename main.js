@@ -10,15 +10,9 @@ var cardBody = document.querySelector('.body-text');
 
 onPageLoad(ideaCards);
 
-searchInput.addEventListener('keyup', searchCard);
+searchInput.addEventListener('keyup', onSearchKeyup);
     
 saveBtn.addEventListener('click', onSave);
-
-
-// cardArea.addEventListener('blur', function(e) {
-
-// }
-
 
 cardArea.addEventListener('keypress', function(e) {
   var key = e.which || e.keyCode;
@@ -46,6 +40,8 @@ function onSave() {
   ideaCards.push(newCard);
   newCard.saveToStorage(ideaCards);
   displayCard(newCard);
+  newTitle.value = "";
+  newBody.value = "";
 }
 
 function onFocusOut(cardId) {
@@ -62,12 +58,12 @@ function displayCard(idea) {
      </div>
      <div class="card-bottom">
        <div class="adjust-buttons">
-         <span class="quality-down-btn"><img src="images/downvote.svg" class="button-image"></span>
-         <span class="quality-up-btn"><img src="images/upvote.svg" class="button-image"></span>
+         <span class="quality-down-btn" onclick="onDownvote"><img src="images/downvote.svg" class="button-image"></span>
+         <span class="quality-up-btn" onclick="onUpvote"><img src="images/upvote.svg" class="button-image"></span>
        <h3 class="idea-quality">Quality: ${idea.quality}</h3>
        </div>
        <div class="delete-button">
-         <span class="delete-card-btn"><img onclick="deleteIdea" src="images/delete.svg" class="button-image"></span>
+         <span class="delete-card-btn"><img onclick="onRemoveCard" src="images/delete.svg" class="button-image"></span>
        </div>
      </div>
      </article>`;
@@ -79,13 +75,13 @@ function findObjectById(id) {
   return ideaCards.find(function(idea){return idea.cardId === id;});
 }
 
-function searchCard() {
+function onSearchKeyup() {
     cardArea.innerHTML = "";
     var filteredCards = ideaCards.filter(function(idea) {
-      return idea.body.includes(searchInput.value.toLowerCase()) || idea.title.includes(searchInput.value.toLowerCase());
+      return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
   });
     filteredCards.forEach(function(idea) {
-      displayCard(idea);
+    displayCard(idea);
   })
 }
 
