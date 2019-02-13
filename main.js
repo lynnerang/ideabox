@@ -14,12 +14,6 @@ searchInput.addEventListener('keyup', searchCard);
     
 saveBtn.addEventListener('click', onSave);
 
-
-// cardArea.addEventListener('blur', function(e) {
-
-// }
-
-
 cardArea.addEventListener('keypress', function(e) {
   var key = e.which || e.keyCode;
 
