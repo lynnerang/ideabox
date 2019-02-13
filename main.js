@@ -54,12 +54,12 @@ function displayCard(idea) {
      </div>
      <div class="card-bottom">
        <div class="adjust-buttons">
-         <span class="quality-down-btn"><img src="images/downvote.svg" class="button-image"></span>
-         <span class="quality-up-btn"><img src="images/upvote.svg" class="button-image"></span>
+         <span class="quality-down-btn" onclick="onDownvote"><img src="images/downvote.svg" class="button-image"></span>
+         <span class="quality-up-btn" onclick="onUpvote"><img src="images/upvote.svg" class="button-image"></span>
        <h3 class="idea-quality">Quality: ${idea.quality}</h3>
        </div>
        <div class="delete-button">
-         <span class="delete-card-btn"><img onclick="deleteIdea" src="images/delete.svg" class="button-image"></span>
+         <span class="delete-card-btn"><img onclick="onRemoveCard" src="images/delete.svg" class="button-image"></span>
        </div>
      </div>
      </article>`;
