@@ -108,7 +108,7 @@ span {
   background-color: #524649;
 }
 
-.card-section {
+.card-area {
   display: flex;
   align-items: center;
   flex-direction: column-reverse;

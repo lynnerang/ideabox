@@ -1,53 +1,54 @@
 var ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
 var searchInput = document.getElementById('search-term');
 var searchBtn = document.querySelector('.search-btn');
-var title = document.getElementById('title');
-var body = document.getElementById('body');
+var newTitle = document.getElementById('j-new-title');
+var newBody = document.getElementById('j-new-body');
 var saveBtn = document.querySelector('.save-btn');
-var cardArea = document.querySelector('.card-section');
+var cardArea = document.querySelector('.card-area');
 var cardTitle = document.querySelector('.title-text');
-var cardBody = document.querySelector('.idea-body-text');
+var cardBody = document.querySelector('.body-text');
 
-window.onload = onPageLoad(ideaCards);
+onPageLoad(ideaCards);
 
 saveBtn.addEventListener('click', onSave);
+
+cardArea.addEventListener('blur', function(e) {
+
+}
+
 cardArea.addEventListener('keypress', function(e) {
   var key = e.which || e.keyCode;
 
   if (key === 13) {
     e.preventDefault();
-    console.log(e.target.parentNode.parentNode);
-    var cardId = e.target.parentNode.parentNode.id;
-    console.log(e.target.parentNode.parentNode.id);
-    var updatedInput = e.target.value;
-    console.log(updatedInput);
-    var match = findObjectById(cardId);
-    console.log(match);
-    match.updateContent(updatedInput);
+    var fieldId = e.target.id;
+    var cardId = parseInt(e.target.parentNode.parentNode.id);
+    var updatedTxt = e.target.textContent;
+    findObjectById(cardId).updateContent(fieldId, updatedTxt);
   }
 });
 
-function onPageLoad (array) {
+function onPageLoad(array) {
   ideaCards = [];
   array.forEach(function(idea){
     var newCard = new ideaCard(idea.title, idea.body, idea.cardId);
     ideaCards.push(newCard);
-    displayCards(newCard);
+    displayCard(newCard);
   });
 }
 
-function onSave () {
-  var newCard = new ideaCard(title.value, body.value, Date.now());
+function onSave() {
+  var newCard = new ideaCard(newTitle.value, newBody.value, Date.now());
   ideaCards.push(newCard);
   newCard.saveToStorage(ideaCards);
-  displayCards(newCard);
+  displayCard(newCard);
 }
 
-function displayCards(idea) {
+function displayCard(idea) {
       var html = `<article class="idea-card" id="${idea.cardId}">
-     <div class="card-body">
-       <h2 class="title-text" contenteditable="true">${idea.title}</h2>
-       <p class="idea-body-text" contenteditable="true">${idea.body}</p>
+     <div class="card-main">
+       <h2 class="title-text" id="cardTitle" contenteditable="true">${idea.title}</h2>
+       <p class="body-text" id="cardBody" contenteditable="true">${idea.body}</p>
      </div>
      <div class="card-bottom">
        <div class="adjust-buttons">
@@ -64,13 +65,7 @@ function displayCards(idea) {
   };
 
 function findObjectById(id) {
-  // for(var i = 0; i < ideaCards.length; i++){
-  //   if (ideaCards[i].cardId === id) {
-  //     console.log(ideaCard[i]);
-  //     return ideaCards[i];
-  //   } 
-  // }
-  return ideaCards.find(function(idea){
-    return idea.cardId === id;
-  });
+  return ideaCards.find(function(idea){return idea.cardId === id;});
 }
+
+
