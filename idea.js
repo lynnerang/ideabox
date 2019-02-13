@@ -1,14 +1,18 @@
 class ideaCard {
-  constructor(title, body, id) {
+  constructor(title, body, cardId) {
     this.title = title;
     this.body = body;
     this.quality = 'swill';
-    this.id = id;
+    this.cardId = cardId;
   }
-  saveToStorage () {
+  saveToStorage(ideaCards) {
     localStorage.setItem("ideaCards", JSON.stringify(ideaCards));
   }
+  updateContent(update) {
+    console.log('update content ' + update);
+  }
 }
+
 
 //function updateContent() {}
 
