@@ -12,10 +12,6 @@ onPageLoad(ideaCards);
 
 saveBtn.addEventListener('click', onSave);
 
-cardArea.addEventListener('blur', function(e) {
-
-}
-
 cardArea.addEventListener('keypress', function(e) {
   var key = e.which || e.keyCode;
 
@@ -44,11 +40,17 @@ function onSave() {
   displayCard(newCard);
 }
 
+function onFocusOut(cardId) {
+  var updatedTxt = event.target.textContent;
+  var fieldId = event.target.id;
+  findObjectById(cardId).updateContent(fieldId, updatedTxt);
+}
+
 function displayCard(idea) {
       var html = `<article class="idea-card" id="${idea.cardId}">
      <div class="card-main">
-       <h2 class="title-text" id="cardTitle" contenteditable="true">${idea.title}</h2>
-       <p class="body-text" id="cardBody" contenteditable="true">${idea.body}</p>
+       <h2 class="title-text" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.title}</h2>
+       <p class="body-text" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.body}</p>
      </div>
      <div class="card-bottom">
        <div class="adjust-buttons">
@@ -62,7 +64,8 @@ function displayCard(idea) {
      </div>
      </article>`;
      cardArea.innerHTML += html;
-  };
+  }
+
 
 function findObjectById(id) {
   return ideaCards.find(function(idea){return idea.cardId === id;});
