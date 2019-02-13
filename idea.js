@@ -5,19 +5,26 @@ class ideaCard {
     this.quality = 'swill';
     this.cardId = cardId;
   }
+
   saveToStorage(ideaCards) {
     localStorage.setItem("ideaCards", JSON.stringify(ideaCards));
   }
-  updateContent(update) {
-    console.log('update content ' + update);
+
+  updateContent(fieldId, updatedTxt) {
+    if (fieldId === 'cardTitle') {
+      this.title = updatedTxt;
+      this.saveToStorage(ideaCards);
+    } else if (fieldId === 'cardBody') {
+      this.body = updatedTxt;
+      this.saveToStorage(ideaCards);
+    }
   }
+
+  //function deleteFromStorage() {}
+
+  //function updateQuality() {}
 }
 
 
-//function updateContent() {}
 
-//function deleteFromStorage() {}
 
-//function saveToStorage() {}
-
-//function updateQuality() {}
