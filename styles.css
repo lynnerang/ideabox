@@ -124,6 +124,11 @@ span {
   margin: 20px 0px;
 }
 
+.body-text {
+    color: #6e646b;
+    margin: 20px 10px;
+}
+
 .card-bottom {
   display: flex;
   justify-content: space-between;
