@@ -78,6 +78,11 @@ span {
   height: 70px;
 }
 
+.idea-body-input:focus,
+.idea-title-input:focus {
+  outline: none;
+}
+
 .idea-title-input {
   height: 35px;
   border-radius: 5px;
@@ -129,6 +134,10 @@ span {
     margin: 20px 10px;
 }
 
+.body-text:focus {
+  outline: none;
+}
+
 .card-bottom {
   display: flex;
   justify-content: space-between;
@@ -172,9 +181,17 @@ h2 {
   margin: 10px 0px 5px 10px;
 }
 
+h2:focus {
+  outline: none;
+}
+
 .idea-body-text {
   color: #7c7879;
   margin-left: 10px;
+}
+
+.idea-body-text:focus {
+  outline: none;
 }
 
 .filter-buttons {
