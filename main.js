@@ -10,7 +10,7 @@ var cardBody = document.querySelector('.body-text');
 
 onPageLoad(ideaCards);
 
-searchInput.addEventListener('keyup', searchCard);
+searchInput.addEventListener('keyup', onSearchKeyup);
     
 saveBtn.addEventListener('click', onSave);
 
@@ -73,13 +73,13 @@ function findObjectById(id) {
   return ideaCards.find(function(idea){return idea.cardId === id;});
 }
 
-function searchCard() {
+function onSearchKeyup() {
     cardArea.innerHTML = "";
     var filteredCards = ideaCards.filter(function(idea) {
-      return idea.body.includes(searchInput.value.toLowerCase()) || idea.title.includes(searchInput.value.toLowerCase());
+      return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
   });
     filteredCards.forEach(function(idea) {
-      displayCard(idea);
+    displayCard(idea);
   })
 }
 
