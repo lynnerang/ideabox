@@ -10,7 +10,15 @@ var cardBody = document.querySelector('.body-text');
 
 onPageLoad(ideaCards);
 
+searchInput.addEventListener('keyup', searchCard);
+    
 saveBtn.addEventListener('click', onSave);
+
+
+// cardArea.addEventListener('blur', function(e) {
+
+// }
+
 
 cardArea.addEventListener('keypress', function(e) {
   var key = e.which || e.keyCode;
@@ -70,5 +78,25 @@ function displayCard(idea) {
 function findObjectById(id) {
   return ideaCards.find(function(idea){return idea.cardId === id;});
 }
+
+function searchCard() {
+    cardArea.innerHTML = "";
+    var filteredCards = ideaCards.filter(function(idea) {
+      return idea.body.includes(searchInput.value.toLowerCase()) || idea.title.includes(searchInput.value.toLowerCase());
+  });
+    filteredCards.forEach(function(idea) {
+      displayCard(idea);
+  })
+}
+
+
+
+
+
+
+
+
+
+
 
 
