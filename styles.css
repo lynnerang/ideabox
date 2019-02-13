@@ -35,6 +35,10 @@ span {
   border-radius: 5px 0px 0px 5px;
 }
 
+#search-term:focus {
+  outline: none;
+}
+
 .search-btn {
   background-color: #d2cccd;
   height: 36px;
@@ -44,6 +48,10 @@ span {
 
 .search-btn:hover {
   background-color: #6e646b;
+}
+
+.search-btn:focus {
+  outline: none;
 }
 
 .fa-search {
@@ -129,6 +137,10 @@ span {
     margin: 20px 10px;
 }
 
+.body-text:focus {
+  outline: none;
+}
+
 .card-bottom {
   display: flex;
   justify-content: space-between;
@@ -172,9 +184,17 @@ h2 {
   margin: 10px 0px 5px 10px;
 }
 
+h2:focus {
+  outline: none;
+}
+
 .idea-body-text {
   color: #7c7879;
   margin-left: 10px;
+}
+
+.idea-body-text:focus {
+  outline: none;
 }
 
 .filter-buttons {
@@ -203,7 +223,8 @@ h2 {
 
 @media only screen and (min-width: 1900px) and (max-width:800px) {
   .idea-form {
-    width: 70%;}
+    width: 70%;
+  }
   
   .idea-card{
     width: 68%;
@@ -224,15 +245,16 @@ h2 {
   .idea-form {
     width: 90%;}
   
-.idea-card{
+  .idea-card{
     width: 88%;
 }
 
-.site-name {
+  .site-name {
     display: flex;
     font-size: 44px;
     margin-left: 0px;
 }
+  
   header {
   display: flex;
   background-color: #524649;
@@ -242,7 +264,7 @@ h2 {
 
 }
 
-h1 {
+  h1 {
   color: #b2a1b1;
   font-weight: 800;
   margin-left: 10px 0px 20px 10px;
@@ -250,7 +272,7 @@ h1 {
   justify-content: center;
 }
   
-.search {
+  .search {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -258,11 +280,12 @@ h1 {
   margin-top: 20px;
 }
 
-#search-term {
+  #search-term {
   width: 80%;
   margin-left: 20px;
 }
-.filter-buttons {
+  
+  .filter-buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
