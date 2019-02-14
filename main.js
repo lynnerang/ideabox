@@ -63,6 +63,7 @@ function onFocusOut(cardId) {
   findObjectById(cardId).updateContent(fieldId, updatedTxt);
 }
 
+//add data attribute instead of ID for card
 function displayCard(idea) {
       var html = `<article class="idea-card" id="${idea.cardId}">
      <div class="card-main">

@@ -91,6 +91,7 @@ label {
   justify-content: flex-end;
 }
 
+/*no outline class*/
 h2:focus,
 button:focus,
 #search-input:focus,
