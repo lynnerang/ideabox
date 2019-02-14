@@ -5,6 +5,7 @@
 body {
   font-family: 'Open Sans', sans-serif;
   font-size: 22px;
+  color: color: #7c7879;
   background-color: #f9f9fa
 }
 
@@ -34,10 +35,6 @@ h2 {
   font-size: 1.4em;
 }
 
-h2:focus {
-  outline: none;
-}
-
 input, 
 button, 
 textarea {
@@ -51,6 +48,7 @@ textarea,
 .idea-card {
   border: 2px solid #d2cccd;
   line-height: 1.5;
+  color: #7c7879
 }
 
 input,
@@ -84,8 +82,6 @@ label {
   color: #7c7879;
   margin-top: 20px;
   margin-bottom: 8px;
-  display: flex;
-  flex-direction: column;
 }
 
 .search {
@@ -113,10 +109,7 @@ button:focus,
 .search-btn {
   background-color: #d2cccd;
   border-radius: 0px 5px 5px 0px;
-}
-
-.search-btn:hover {
-  background-color: #6e646b;
+  height: 41px;
 }
 
 i.fa-lg {
@@ -141,25 +134,28 @@ i.fa-lg {
 
 .idea-body-input {
   height: 125px;
-  padding: 10px;
+}
+
+
+/*Filter Button Styling*/
+
+.filter-label {
+  display: block;
+}
+
+.filter-section {
+  width: 50%;
+  margin: auto;
 }
 
 .filter-btns {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .filter-btn {
-  width: 170px;
-  margin: 10px;
-}
-
-.idea-body-input {
-  height: 70px;
-}
-
-.idea-title-input {
-  height: 35px;
+  width: 200px;
+  margin: 10px 0px;
 }
 
 .idea-title-input:focus,
@@ -167,72 +163,14 @@ i.fa-lg {
   outline-color: #b2a1b1;
 }
 
-.idea-title,
-.body-title {
-  color: #7c7879;
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-.save-btn {
-  color: #fff;
-  font-weight: 800;
-  background-color: #c2c1c0;
-  border-radius: 5px;
-  margin: 25px 0px 15px 0px;
-  height: 35px;
-}
-
-.save-btn:hover {
-  background-color: #524649;
-  cursor: pointer;
-}
-
-/*Filter Button Styling*/
-
-.filter-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.filter {
-  color: #fff;
-  font-weight: 800;
-  background-color: #6e646b;
-  border-radius: 5px;
-  height: 35px;
-  width: 180px;
-  margin: 10px 0px;
-}
-
-.filter:hover {
-  background-color: #534649;
-  cursor: pointer;
-}
 
 /*Show More/Show Less styling*/
 
 .show-less-btn {
-  color: #fff;
-  font-weight: 800;
-  background-color: #6e646b;
-  border-radius: 5px;
   margin: 25px 0px 15px 0px;
-  height: 35px;
   display: block;
-  margin:  10px auto;
+  margin:  20px auto;
   width: 50%;
-}
-
-.show-less-btn:hover {
-  background-color: #524649;
-  cursor: pointer;
-}
-
-.show-less-btn:focus {
-  outline: none;
 }
 
 /*Generated card styling*/
@@ -254,10 +192,6 @@ i.fa-lg {
 
 .card-main {
   padding: 10px 20px;
-}
-
-.body-txt {
-  color: #7c7879;
 }
 
 .card-bottom {
@@ -297,7 +231,6 @@ i.fa-lg {
   margin: 0px;
   font-size: 20px;
   font-weight: 600;
-  color: #7c7879
 }
 
 /*Media Queries*/
@@ -345,7 +278,7 @@ i.fa-lg {
 
 }
 
-  h1 {
+h1 {
   color: #b2a1b1;
   font-weight: 800;
   margin-left: 10px 0px 20px 10px;
@@ -353,7 +286,7 @@ i.fa-lg {
   justify-content: center;
 }
   
-  .search {
+.search {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -361,7 +294,7 @@ i.fa-lg {
   margin-top: 20px;
 }
 
-  #search-input {
+#search-input {
   width: 80%;
   margin-left: 20px;
 }
