@@ -3,6 +3,8 @@ body {
   background-color: #f9f9fa
 }
 
+/*Header Styling*/
+
 header {
   display: flex;
   background-color: #524649;
@@ -59,6 +61,8 @@ span {
   width: 20px;
 }
 
+/*Form styling*/
+
 .form-section {
   background-color: #eaeaea;
   display: flex;
@@ -88,9 +92,11 @@ span {
 
 .idea-title-input {
   height: 35px;
-  border-radius: 5px;
-  border: 2px solid #d2cccd;
-  margin-top: 5px;
+}
+
+.idea-title-input:focus,
+.idea-body-input:focus {
+  outline-color: #b2a1b1;
 }
 
 .idea-title,
@@ -106,15 +112,62 @@ span {
   font-weight: 800;
   background-color: #c2c1c0;
   border-radius: 5px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin: 25px 0px 15px 0px;
   height: 35px;
-  cursor: pointer;
 }
 
 .save-btn:hover {
   background-color: #524649;
+  cursor: pointer;
 }
+
+/*Filter Button Styling*/
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.filter {
+  color: #fff;
+  font-weight: 800;
+  background-color: #6e646b;
+  border-radius: 5px;
+  height: 35px;
+  width: 180px;
+  margin: 10px 0px;
+}
+
+.filter:hover {
+  background-color: #534649;
+  cursor: pointer;
+}
+
+/*Show More/Show Less styling*/
+
+.show-less-btn {
+  color: #fff;
+  font-weight: 800;
+  background-color: #6e646b;
+  border-radius: 5px;
+  margin: 25px 0px 15px 0px;
+  height: 35px;
+  display: block;
+  margin:  10px auto;
+  width: 53%;
+}
+
+.show-less-btn:hover {
+  background-color: #524649;
+  cursor: pointer;
+}
+
+.show-less-btn:focus {
+  outline: none;
+}
+
+/*Generated card styling*/
 
 .card-area {
   display: flex;
@@ -197,29 +250,7 @@ h2:focus {
   outline: none;
 }
 
-.filter-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.filter {
-  color: #fff;
-  font-weight: 800;
-  background-color: #6e646b;
-  border-radius: 5px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  height: 35px;
-  cursor: pointer;
-  width: 170px;
-  margin: 10px;
-}
-
-.filter:hover {
-  background-color: #534649;
-  cursor: pointer;
-}
+/*Media Queries*/
 
 @media only screen and (min-width: 1900px) and (max-width:800px) {
   .idea-form {
