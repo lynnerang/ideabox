@@ -212,6 +212,7 @@ i.fa-lg {
 }
 
 .delete-btn {
+  display: flex;
   justify-content: flex-end;
   align-items: center;
 }
