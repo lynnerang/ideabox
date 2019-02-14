@@ -2,7 +2,7 @@ class ideaCard {
   constructor(title, body, cardId) {
     this.title = title;
     this.body = body;
-    this.quality = 'swill';
+    this.quality = 'Swill';
     this.cardId = cardId;
   }
 

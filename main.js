@@ -1,12 +1,12 @@
 var ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
-var searchInput = document.getElementById('search-term');
+var searchInput = document.getElementById('search-input');
 var searchBtn = document.querySelector('.search-btn');
 var newTitle = document.getElementById('j-new-title');
 var newBody = document.getElementById('j-new-body');
 var saveBtn = document.querySelector('.save-btn');
 var cardArea = document.querySelector('.card-area');
-var cardTitle = document.querySelector('.title-text');
-var cardBody = document.querySelector('.body-text');
+var cardTitle = document.querySelector('.title-txt');
+var cardBody = document.querySelector('.body-txt');
 
 onPageLoad(ideaCards);
 
@@ -17,12 +17,14 @@ saveBtn.addEventListener('click', onSave);
 cardArea.addEventListener('click', onDeleteCard);
 
 function onDeleteCard(e) {
-  var cardElement = e.target.closest('.idea-card');
-  var match = findObjectById(parseInt(cardElement.id));
-  var matchIndex = ideaCards.indexOf(match);
-  ideaCards.splice(matchIndex, 1);
-  match.deleteFromStorage(ideaCards);
-  cardElement.remove();
+  if (e.target.classList.contains('delete-card-btn')) {
+    var cardElement = e.target.closest('.idea-card');
+    var match = findObjectById(parseInt(cardElement.id));
+    var matchIndex = ideaCards.indexOf(match);
+    ideaCards.splice(matchIndex, 1);
+    match.deleteFromStorage(ideaCards);
+    cardElement.remove();
+  }
 }
 
 cardArea.addEventListener('keypress', function(e) {
@@ -64,17 +66,17 @@ function onFocusOut(cardId) {
 function displayCard(idea) {
       var html = `<article class="idea-card" id="${idea.cardId}">
      <div class="card-main">
-       <h2 class="title-text" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.title}</h2>
-       <p class="body-text" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.body}</p>
+       <h2 class="title-txt" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.title}</h2>
+       <p class="body-txt" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.body}</p>
      </div>
      <div class="card-bottom">
-       <div class="adjust-buttons">
-         <span class="quality-down-btn" onclick="onDownvote"><img src="images/downvote.svg" class="button-image"></span>
-         <span class="quality-up-btn" onclick="onUpvote"><img src="images/upvote.svg" class="button-image"></span>
-       <h3 class="idea-quality">Quality: ${idea.quality}</h3>
+       <div class="card-btns">
+         <img class="btn-image quality-down-btn" onclick="onDownvote" src="images/downvote.svg">
+         <img class="btn-image quality-up-btn" onclick="onUpvote" src="images/upvote.svg">
+         <h3 class="idea-quality">Quality: ${idea.quality}</h3>
        </div>
-       <div class="delete-button">
-         <span class="delete-card-btn"><img src="images/delete.svg" class="button-image"></span>
+       <div class="delete-btn">
+         <img class="btn-image delete-card-btn" src="images/delete.svg">
        </div>
      </div>
      </article>`;
