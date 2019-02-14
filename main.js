@@ -22,7 +22,7 @@ function onDeleteCard(e) {
     var match = findObjectById(parseInt(cardElement.id));
     var matchIndex = ideaCards.indexOf(match);
     ideaCards.splice(matchIndex, 1);
-    match.deleteFromStorage(ideaCards);
+    match.deleteFromStorage();
     cardElement.remove();
   }
 }
@@ -42,16 +42,16 @@ cardArea.addEventListener('keypress', function(e) {
 function onPageLoad(array) {
   ideaCards = [];
   array.forEach(function(idea){
-    var newCard = new ideaCard(idea.title, idea.body, idea.cardId);
+    var newCard = new ideaCard(idea.title, idea.body, idea.cardId, idea.quality);
     ideaCards.push(newCard);
     displayCard(newCard);
   });
 }
 
 function onSave() {
-  var newCard = new ideaCard(newTitle.value, newBody.value, Date.now());
+  var newCard = new ideaCard(newTitle.value, newBody.value, Date.now(), 'Swill');
   ideaCards.push(newCard);
-  newCard.saveToStorage(ideaCards);
+  newCard.saveToStorage();
   displayCard(newCard);
   newTitle.value = "";
   newBody.value = "";
@@ -72,8 +72,8 @@ function displayCard(idea) {
      </div>
      <div class="card-bottom">
        <div class="card-btns">
-         <img class="btn-image quality-down-btn" onclick="onDownvote" src="images/downvote.svg">
-         <img class="btn-image quality-up-btn" onclick="onUpvote" src="images/upvote.svg">
+         <img class="btn-image downvote-btn" onclick="onDownvote(${idea.cardId})" src="images/downvote.svg">
+         <img class="btn-image upvote-btn" onclick="onUpvote(${idea.cardId})" src="images/upvote.svg">
          <h3 class="idea-quality">Quality: ${idea.quality}</h3>
        </div>
        <div class="delete-btn">
@@ -99,6 +99,44 @@ function onSearchKeyup() {
   })
 }
 
+function onUpvote(cardId) {
+  if (event.target.classList.contains('upvote-btn')) {
+    var match = findObjectById(parseInt(cardId));
+    var newQuality = increaseQuality(match);
+    match.updateQuality(newQuality);
+    event.target.nextElementSibling.innerText = `Quality: ${match.quality}`;
+  }
+}
+
+function onDownvote(cardId) {
+  if (event.target.classList.contains('downvote-btn')) {
+    var match = findObjectById(parseInt(cardId));
+    var newQuality = decreaseQuality(match);
+    match.updateQuality(newQuality);
+    event.target.closest('.quality-text');
+    event.target.nextElementSibling.nextElementSibling.innerText = `Quality: ${match.quality}`;
+  }
+}
+
+function increaseQuality(obj) {
+ if (obj.quality === 'Swill') {
+    return 'Plausible';
+  } else if(obj.quality === 'Plausible') {
+    return 'Genius';
+  } else {
+    return 'Genius';
+  }
+}
+
+function decreaseQuality(obj) {
+  if (obj.quality === 'Genius') {
+    return 'Plausible';
+  } else if(obj.quality === 'Plausible') {
+    return 'Swill';
+  } else {
+    return 'Swill';
+  }
+}
 
 
 

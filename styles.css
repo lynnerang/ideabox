@@ -245,6 +245,10 @@ i.fa-lg {
   .idea-card{
     width: 68%;
   }
+
+  .filter-btn {
+    width: 180px;
+  }
 }
 
 @media only screen and (min-width:600px) and (max-width:800px) {
@@ -254,6 +258,20 @@ i.fa-lg {
   
   .idea-card{
     width: 78%;
+  }
+
+  header {
+    flex-direction: column;
+    align-content: center;
+    padding: 0px;
+    height: 200px;
+  }
+
+  .filter-section {
+    width: 78%;
+ }
+  .filter-btn {
+    width: 150px;
   }
 }
 
@@ -277,8 +295,11 @@ i.fa-lg {
   height: 150px;
   flex-direction: column;
   align-content: center;
+  padding: 0px;
 
 }
+
+
 
 h1 {
   color: #b2a1b1;
