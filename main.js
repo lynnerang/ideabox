@@ -14,6 +14,17 @@ searchInput.addEventListener('keyup', onSearchKeyup);
     
 saveBtn.addEventListener('click', onSave);
 
+cardArea.addEventListener('click', onDeleteCard);
+
+function onDeleteCard(e) {
+  var cardElement = e.target.closest('.idea-card');
+  var match = findObjectById(parseInt(cardElement.id));
+  var matchIndex = ideaCards.indexOf(match);
+  ideaCards.splice(matchIndex, 1);
+  match.deleteFromStorage(ideaCards);
+  cardElement.remove();
+}
+
 cardArea.addEventListener('keypress', function(e) {
   var key = e.which || e.keyCode;
 
@@ -63,7 +74,7 @@ function displayCard(idea) {
        <h3 class="idea-quality">Quality: ${idea.quality}</h3>
        </div>
        <div class="delete-button">
-         <span class="delete-card-btn"><img onclick="onRemoveCard" src="images/delete.svg" class="button-image"></span>
+         <span class="delete-card-btn"><img src="images/delete.svg" class="button-image"></span>
        </div>
      </div>
      </article>`;
