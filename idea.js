@@ -1,12 +1,12 @@
 class ideaCard {
-  constructor(title, body, cardId) {
+  constructor(title, body, cardId, quality) {
     this.title = title;
     this.body = body;
-    this.quality = 'Swill';
+    this.quality = quality;
     this.cardId = cardId;
   }
 
-  saveToStorage(ideaCards) {
+  saveToStorage() {
     localStorage.setItem("ideaCards", JSON.stringify(ideaCards));
   }
 
@@ -19,12 +19,17 @@ class ideaCard {
     this.saveToStorage(ideaCards);
   }
 
-  deleteFromStorage(ideaCards) {
-    localStorage.setItem("ideaCards", JSON.stringify(ideaCards));
+  deleteFromStorage() {
+    this.saveToStorage();
+  }
+
+  updateQuality(newQuality) {
+    this.quality = newQuality;
+    this.saveToStorage();
   }
 }
 
-  //function updateQuality() {}
+
 
 
 
