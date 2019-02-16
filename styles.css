@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  outline-color: grey;
 }
 
 body {
@@ -58,7 +59,7 @@ textarea {
 
 input:focus,
 textarea:focus {
-  outline-color: grey;
+/*  outline-color: grey;*/
 }
 
 button {
@@ -99,16 +100,16 @@ section {
 }
 
 /*no outline class*/
-h2:focus,
+h2:focus, 
 button:focus,
-#search-input:focus,
+.search-input:focus,
 .search-btn:focus,
 .body-txt:focus,
 .title-txt:focus {
   outline: none;
 }
 
-#search-input {
+.search-input {
   border-radius: 5px 0px 0px 5px;
   border-right: none;
   width: 275px;
@@ -126,6 +127,10 @@ i.fa-lg {
   width: 25px;
 }
 
+i.fa-minus-circle {
+  display: none;
+}
+
 /*Form styling*/
 
 .new-idea-form {
@@ -134,14 +139,13 @@ i.fa-lg {
 }
 
 .form-section {
-  /* display: flex; */
+/*   display: flex; */
   /* justify-content: center; */
 }
 
 .idea-form {
   display: flex;
   flex-direction: column;
-/*  width: 50%;*/
 }
 
 .idea-body-input {
@@ -188,8 +192,6 @@ i.fa-lg {
 /*Generated card styling*/
 
 .card-area {
-  /* display: flex; */
-  /* align-items: center; */
   flex-direction: column-reverse;
 }
 
@@ -197,7 +199,6 @@ i.fa-lg {
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  /*  width: 50%;*/
   justify-content: flex-end;
   margin: 20px 0px;
 }
@@ -247,22 +248,22 @@ i.fa-lg {
 }
 
 .char-txt {
-  font-size: 16px;
-  color: grey;
-  margin-top: 10px;
+  font-size: 14px;
+  color: #a0a0a0;
+  margin: 5px 0px 0px 5px;
 }
 
 .error {
   color: darkred;
 }
 
-.error-border:focus {
-  outline-color: darkred!important;
+.error-border {
+  border-color: darkred;
 }
 
 /*Media Queries*/
 
-@media only screen /*and (min-width: 800px) and*/ (max-width:1150px) {
+@media only screen (max-width:1150px) {
   section {
     width: 60%;
     min-width: 650px;
@@ -278,7 +279,7 @@ i.fa-lg {
   }
 }
 
-@media only screen /*nd (min-width:600px) and*/ and (max-width:830px) {
+@media only screen and (max-width:830px) {
   section {
     min-width: 480px;
     width: 80%;
@@ -324,13 +325,33 @@ i.fa-lg {
     font-size: 1.2em;
   }
 
+  header {
+    height: 60px;
+  }
+
+  h1 {
+    font-size: 1.8em;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+
   section {
     width: 90%;
     min-width: 0px;
   }
 
-  #search-input {
-    width: 245px;
+
+  .search-input {
+    display: none;
+  }
+
+  .search-btn {
+    position: absolute;
+    background: none;
+    border: none;
+    font-size: 18px;
+    right: 10px;
+    top: 12px;
   }
   
   .filter-btns {
@@ -343,5 +364,46 @@ i.fa-lg {
     padding: 5px 10px;
     margin: 5px;
   }
+
+  header.header-open {
+    position: relative;
+    height: 120px;
+    justify-content: flex-start;
+  }
+
+  div.search-open {
+    position: absolute;
+    height: auto;
+    max-height: auto;
+    top: 65px;
+    left: 15px;
+    right: 15px;
+    width: 92%;
+    border-radius: 5px;
+  }
+
+  input.search-input-open {
+    display: inline-block;
+    width: 100%;
+  }
+
+  button.search-btn-open {
+    position: static;
+    background-color: #d2cccd;
+    border-radius: 0px 5px 5px 0px;
+  }
+
+  div.search i.fa-lg-open {
+    display: none;
+  }
+
+  div.search i.fa-minus-circle-open {
+    display: inline-block;
+    color: #fff;
+    font-size: 1.5em;
+    width: 25px;
+  }
+
+
 }
 

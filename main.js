@@ -1,5 +1,5 @@
 var ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
-var searchInput = document.getElementById('search-input');
+var searchInput = document.querySelector('.search-input');
 var saveBtn = document.querySelector('.save-btn');
 var cardArea = document.querySelector('.card-area');
 var newTitle = document.getElementById('j-new-title');
@@ -47,19 +47,6 @@ function onFocusout(cardId) {
   var fieldId = event.target.id;
   findObjectById(cardId).updateContent(fieldId, updatedTxt);
 }
-
-// function onVote(cardId) {
-//   var match = findObjectById(parseInt(cardId));
-//   var newQuality;
-  
-//   if (event.target.classList.contains('upvote-btn')) {
-//     newQuality = changeQuality(match, 'increase');
-//   } else {
-//     newQuality = changeQuality(match);
-//   }
-//   match.updateQuality(newQuality);  
-//   event.target.parentNode.querySelector('.quality-txt').innerText = match.quality;
-// }
 
 function onVote(cardId) {
   var match = findObjectById(parseInt(cardId));
@@ -120,6 +107,73 @@ function findObjectById(id) {
   return ideaCards.find(function(idea){return idea.cardId === id;});
 }
 
+function changeQuality(obj, direction) {
+  if (direction === 'increase' && obj.quality < 4) {
+    return obj.quality + 1;
+  } else if (direction !== 'increase' && obj.quality > 0) {
+    return obj.quality - 1;
+  } else {
+    return obj.quality;
+  }
+}
+
+function onKeyup() {
+  var totalChars = event.target.value.length;
+  var charLimit = parseInt(event.target.nextElementSibling.querySelector('.char-limit').innerText);
+  var charCounter = event.target.nextElementSibling.querySelector('.char-count');
+  charCounter.innerText = totalChars;
+
+  showErrs(event.target, charLimit)
+
+  if (validLength(newTitle, 70) && validLength(newBody, 120)) {
+    saveBtn.disabled = false;
+  } else {
+    saveBtn.disabled = true;
+  }
+}
+
+function validLength(input, limit) {
+  return input.value.length > 0 && input.value.length <= limit;
+}
+
+function showErrs(input, limit) {
+  if (input.value.length > 0 && input.value.length <= limit) {
+    input.nextElementSibling.classList.remove('error');
+    input.classList.remove('error-border');
+  } else {
+    input.nextElementSibling.classList.add('error');
+    input.classList.add('error-border');
+  }
+}
+
+var searchBtn = document.querySelector('.search-btn');
+
+searchBtn.addEventListener('click', searchToggle);
+
+function searchToggle() {
+  var header = document.querySelector('header');
+  var searchDiv = document.querySelector('.search');
+  var searchIcon = document.querySelector('.fa-lg');
+  var closeIcon = document.querySelector('.fa-minus-circle');
+
+  if (searchBtn.classList.contains('search-btn-open')) {
+    searchDiv.classList.remove('search-open');
+    searchIcon.classList.remove('fa-lg-open');
+    closeIcon.classList.remove('fa-minus-circle-open');
+    header.classList.remove('header-open');
+    searchInput.classList.remove('search-input-open');
+    searchBtn.classList.remove('search-btn-open');
+  } else {
+    searchDiv.classList.add('search-open');
+    searchIcon.classList.add('fa-lg-open');
+    closeIcon.classList.add('fa-minus-circle-open');
+    header.classList.add('header-open');
+    searchInput.classList.add('search-input-open');
+    searchBtn.classList.add('search-btn-open');
+  }
+}
+
+
 // function changeQuality(obj, direction) {
 //   if (direction === 'increase') {
 //     if (obj.quality === 'Swill') {
@@ -133,15 +187,18 @@ function findObjectById(id) {
 //   return 'Swill';
 // }
 
-function changeQuality(obj, direction) {
-  if (direction === 'increase' && obj.quality < 4) {
-    return obj.quality + 1;
-  } else if (direction !== 'increase' && obj.quality > 0) {
-    return obj.quality - 1;
-  } else {
-    return obj.quality;
-  }
-}
+// function onVote(cardId) {
+//   var match = findObjectById(parseInt(cardId));
+//   var newQuality;
+  
+//   if (event.target.classList.contains('upvote-btn')) {
+//     newQuality = changeQuality(match, 'increase');
+//   } else {
+//     newQuality = changeQuality(match);
+//   }
+//   match.updateQuality(newQuality);  
+//   event.target.parentNode.querySelector('.quality-txt').innerText = match.quality;
+// }
 
 // function increaseQuality(obj) {
 //  if (obj.quality === 'Swill') {
