@@ -4,6 +4,8 @@ var saveBtn = document.querySelector('.save-btn');
 var cardArea = document.querySelector('.card-area');
 var newTitle = document.getElementById('j-new-title');
 var newBody = document.getElementById('j-new-body');
+var qualityTerms = ['Mehhh', 'Swill', 'Plausible', 'Genius', 'Bestest'];
+
 
 searchInput.addEventListener('keyup', onSearch);  
 saveBtn.addEventListener('click', onSave);
@@ -24,14 +26,14 @@ onPageLoad(ideaCards);
 function onPageLoad(array) {
   ideaCards = [];
   array.forEach(function(idea){
-  var newCard = new ideaCard(idea.title, idea.body, idea.cardId, idea.quality);
-  ideaCards.push(newCard);
-  displayCard(newCard);
+    var newCard = new ideaCard(idea.title, idea.body, idea.cardId, idea.quality);
+    ideaCards.push(newCard);
+    displayCard(newCard);
   });
 }
 
 function onSave() {
-  var newCard = new ideaCard(newTitle.value, newBody.value, Date.now(), 'Swill');
+  var newCard = new ideaCard(newTitle.value, newBody.value, Date.now(), 0);
   
   ideaCards.push(newCard);
   displayCard(newCard);
@@ -46,6 +48,19 @@ function onFocusout(cardId) {
   findObjectById(cardId).updateContent(fieldId, updatedTxt);
 }
 
+// function onVote(cardId) {
+//   var match = findObjectById(parseInt(cardId));
+//   var newQuality;
+  
+//   if (event.target.classList.contains('upvote-btn')) {
+//     newQuality = changeQuality(match, 'increase');
+//   } else {
+//     newQuality = changeQuality(match);
+//   }
+//   match.updateQuality(newQuality);  
+//   event.target.parentNode.querySelector('.quality-txt').innerText = match.quality;
+// }
+
 function onVote(cardId) {
   var match = findObjectById(parseInt(cardId));
   var newQuality;
@@ -56,7 +71,7 @@ function onVote(cardId) {
     newQuality = changeQuality(match);
   }
   match.updateQuality(newQuality);  
-  event.target.parentNode.querySelector('.quality-txt').innerText = match.quality;
+  event.target.parentNode.querySelector('.quality-txt').innerText = qualityTerms[newQuality];
 }
 
 function onSearch() {
@@ -81,40 +96,51 @@ function onDelete(e) {
 
 //add data attribute instead of ID for card
 function displayCard(idea) {
-      var html = `<article class="idea-card" id="${idea.cardId}">
-     <div class="card-main">
-       <h2 class="title-txt" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.title}</h2>
-       <p class="body-txt" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.body}</p>
+  var qualityTxt = qualityTerms[idea.quality];
+  var html = `<article class="idea-card" id="${idea.cardId}">
+   <div class="card-main">
+     <h2 class="title-txt" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.title}</h2>
+     <p class="body-txt" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.body}</p>
+   </div>
+   <div class="card-bottom">
+     <div class="card-btns">
+       <img class="btn-image downvote-btn" onclick="onVote(${idea.cardId})" src="images/downvote.svg">
+       <img class="btn-image upvote-btn" onclick="onVote(${idea.cardId})" src="images/upvote.svg">
+       <h3 class="idea-quality">Quality: <span class="quality-txt">${qualityTxt}</span></h3>
      </div>
-     <div class="card-bottom">
-       <div class="card-btns">
-         <img class="btn-image downvote-btn" onclick="onVote(${idea.cardId})" src="images/downvote.svg">
-         <img class="btn-image upvote-btn" onclick="onVote(${idea.cardId})" src="images/upvote.svg">
-         <h3 class="idea-quality">Quality: <span class="quality-txt">${idea.quality}</span></h3>
-       </div>
-       <div class="delete-btn">
-         <img class="btn-image delete-card-btn" src="images/delete.svg">
-       </div>
+     <div class="delete-btn">
+       <img class="btn-image delete-card-btn" src="images/delete.svg">
      </div>
-     </article>`;
-     cardArea.innerHTML += html;
-  }
+   </div>
+   </article>`;
+ cardArea.innerHTML += html;
+}
 
 function findObjectById(id) {
   return ideaCards.find(function(idea){return idea.cardId === id;});
 }
 
+// function changeQuality(obj, direction) {
+//   if (direction === 'increase') {
+//     if (obj.quality === 'Swill') {
+//       return 'Plausible';
+//     }
+//     return 'Genius';
+//   }
+//   if (obj.quality === 'Genius') {
+//     return 'Plausible';
+//   }
+//   return 'Swill';
+// }
+
 function changeQuality(obj, direction) {
-  if (direction === 'increase') {
-    if (obj.quality === 'Swill') {
-      return 'Plausible';
-    }
-    return 'Genius';
+  if (direction === 'increase' && obj.quality < 4) {
+    return obj.quality + 1;
+  } else if (direction !== 'increase' && obj.quality > 0) {
+    return obj.quality - 1;
+  } else {
+    return obj.quality;
   }
-  if (obj.quality === 'Genius') {
-    return 'Plausible';
-  }
-  return 'Swill';
 }
 
 // function increaseQuality(obj) {
