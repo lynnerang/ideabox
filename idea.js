@@ -20,6 +20,9 @@ class ideaCard {
   }
 
   deleteFromStorage() {
+    var matchIndex = ideaCards.indexOf(this);
+
+    ideaCards.splice(matchIndex, 1);
     this.saveToStorage();
   }
 

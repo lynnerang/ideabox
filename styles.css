@@ -91,6 +91,7 @@ label {
   justify-content: flex-end;
 }
 
+/*no outline class*/
 h2:focus,
 button:focus,
 #search-input:focus,
@@ -232,6 +233,20 @@ i.fa-lg {
   margin: 0px;
   font-size: 20px;
   font-weight: 600;
+}
+
+.char-txt {
+  font-size: 16px;
+  color: grey;
+  margin-top: 10px;
+}
+
+.error {
+  color: darkred;
+}
+
+.error-border:focus {
+  outline-color: darkred!important;
 }
 
 /*Media Queries*/
