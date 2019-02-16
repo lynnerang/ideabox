@@ -1,35 +1,15 @@
 var ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
 var searchInput = document.getElementById('search-input');
-var searchBtn = document.querySelector('.search-btn');
-var newTitle = document.getElementById('j-new-title');
-var newBody = document.getElementById('j-new-body');
 var saveBtn = document.querySelector('.save-btn');
 var cardArea = document.querySelector('.card-area');
-var cardTitle = document.querySelector('.title-txt');
-var cardBody = document.querySelector('.body-txt');
+var newTitle = document.getElementById('j-new-title');
+var newBody = document.getElementById('j-new-body');
 
-onPageLoad(ideaCards);
-
-searchInput.addEventListener('keyup', onSearchKeyup);
-    
+searchInput.addEventListener('keyup', onSearch);  
 saveBtn.addEventListener('click', onSave);
-
-cardArea.addEventListener('click', onDeleteCard);
-
-function onDeleteCard(e) {
-  if (e.target.classList.contains('delete-card-btn')) {
-    var cardElement = e.target.closest('.idea-card');
-    var match = findObjectById(parseInt(cardElement.id));
-    var matchIndex = ideaCards.indexOf(match);
-    ideaCards.splice(matchIndex, 1);
-    match.deleteFromStorage();
-    cardElement.remove();
-  }
-}
-
+cardArea.addEventListener('click', onDelete);
 cardArea.addEventListener('keypress', function(e) {
   var key = e.which || e.keyCode;
-
   if (key === 13) {
     e.preventDefault();
     var fieldId = e.target.id;
@@ -39,28 +19,64 @@ cardArea.addEventListener('keypress', function(e) {
   }
 });
 
+onPageLoad(ideaCards);
+
 function onPageLoad(array) {
   ideaCards = [];
   array.forEach(function(idea){
-    var newCard = new ideaCard(idea.title, idea.body, idea.cardId, idea.quality);
-    ideaCards.push(newCard);
-    displayCard(newCard);
+  var newCard = new ideaCard(idea.title, idea.body, idea.cardId, idea.quality);
+  ideaCards.push(newCard);
+  displayCard(newCard);
   });
 }
 
 function onSave() {
   var newCard = new ideaCard(newTitle.value, newBody.value, Date.now(), 'Swill');
+  
   ideaCards.push(newCard);
-  newCard.saveToStorage();
   displayCard(newCard);
+  newCard.saveToStorage();
   newTitle.value = "";
   newBody.value = "";
 }
 
-function onFocusOut(cardId) {
+function onFocusout(cardId) {
   var updatedTxt = event.target.textContent;
   var fieldId = event.target.id;
   findObjectById(cardId).updateContent(fieldId, updatedTxt);
+}
+
+function onVote(cardId) {
+  var match = findObjectById(parseInt(cardId));
+  var newQuality;
+  
+  if (event.target.classList.contains('upvote-btn')) {
+    newQuality = changeQuality(match, 'increase');
+  } else {
+    newQuality = changeQuality(match);
+  }
+  match.updateQuality(newQuality);  
+  event.target.parentNode.querySelector('.quality-txt').innerText = match.quality;
+}
+
+function onSearch() {
+    cardArea.innerHTML = "";
+    var filteredCards = ideaCards.filter(function(idea) {
+      return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
+  });
+    filteredCards.forEach(function(idea) {
+    displayCard(idea);
+  })
+}
+
+function onDelete(e) {
+  if (e.target.classList.contains('delete-card-btn')) {
+    var cardElement = e.target.closest('.idea-card');
+    var match = findObjectById(parseInt(cardElement.id));
+    
+    match.deleteFromStorage();
+    cardElement.remove();
+  }
 }
 
 //add data attribute instead of ID for card
@@ -72,9 +88,9 @@ function displayCard(idea) {
      </div>
      <div class="card-bottom">
        <div class="card-btns">
-         <img class="btn-image downvote-btn" onclick="onDownvote(${idea.cardId})" src="images/downvote.svg">
-         <img class="btn-image upvote-btn" onclick="onUpvote(${idea.cardId})" src="images/upvote.svg">
-         <h3 class="idea-quality">Quality: ${idea.quality}</h3>
+         <img class="btn-image downvote-btn" onclick="onVote(${idea.cardId})" src="images/downvote.svg">
+         <img class="btn-image upvote-btn" onclick="onVote(${idea.cardId})" src="images/upvote.svg">
+         <h3 class="idea-quality">Quality: <span class="quality-txt">${idea.quality}</span></h3>
        </div>
        <div class="delete-btn">
          <img class="btn-image delete-card-btn" src="images/delete.svg">
@@ -84,67 +100,60 @@ function displayCard(idea) {
      cardArea.innerHTML += html;
   }
 
-
 function findObjectById(id) {
   return ideaCards.find(function(idea){return idea.cardId === id;});
 }
 
-function onSearchKeyup() {
-    cardArea.innerHTML = "";
-    var filteredCards = ideaCards.filter(function(idea) {
-      return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
-  });
-    filteredCards.forEach(function(idea) {
-    displayCard(idea);
-  })
-}
-
-function onUpvote(cardId) {
-  if (event.target.classList.contains('upvote-btn')) {
-    var match = findObjectById(parseInt(cardId));
-    var newQuality = increaseQuality(match);
-    match.updateQuality(newQuality);
-    event.target.nextElementSibling.innerText = `Quality: ${match.quality}`;
-  }
-}
-
-function onDownvote(cardId) {
-  if (event.target.classList.contains('downvote-btn')) {
-    var match = findObjectById(parseInt(cardId));
-    var newQuality = decreaseQuality(match);
-    match.updateQuality(newQuality);
-    event.target.closest('.quality-text');
-    event.target.nextElementSibling.nextElementSibling.innerText = `Quality: ${match.quality}`;
-  }
-}
-
-function increaseQuality(obj) {
- if (obj.quality === 'Swill') {
-    return 'Plausible';
-  } else if(obj.quality === 'Plausible') {
-    return 'Genius';
-  } else {
+function changeQuality(obj, direction) {
+  if (direction === 'increase') {
+    if (obj.quality === 'Swill') {
+      return 'Plausible';
+    }
     return 'Genius';
   }
-}
-
-function decreaseQuality(obj) {
   if (obj.quality === 'Genius') {
     return 'Plausible';
-  } else if(obj.quality === 'Plausible') {
-    return 'Swill';
-  } else {
-    return 'Swill';
   }
+  return 'Swill';
 }
 
+// function increaseQuality(obj) {
+//  if (obj.quality === 'Swill') {
+//     return 'Plausible';
+//   } else if(obj.quality === 'Plausible') {
+//     return 'Genius';
+//   } else {
+//     return 'Genius';
+//   }
+// }
 
+// function decreaseQuality(obj) {
+//   if (obj.quality === 'Genius') {
+//     return 'Plausible';
+//   } else if(obj.quality === 'Plausible') {
+//     return 'Swill';
+//   } else {
+//     return 'Swill';
+//   }
+// }
 
+// function onUpvote(cardId) {
+//   if (event.target.classList.contains('upvote-btn')) {
+//     var match = findObjectById(parseInt(cardId));
+//     var newQuality = increaseQuality(match);
+//     match.updateQuality(newQuality);
+//     event.target.parentNode.querySelector('.idea-quality').innerText = `Quality: ${match.quality}`;
+//   }
+// }
 
-
-
-
-
+// function onDownvote(cardId) {
+//   if (event.target.classList.contains('downvote-btn')) {
+//     var match = findObjectById(parseInt(cardId));
+//     var newQuality = decreaseQuality(match);
+//     match.updateQuality(newQuality);
+//     event.target.parentNode.querySelector('.idea-quality').innerText = `Quality: ${match.quality}`;
+//   }
+// }
 
 
 
