@@ -92,7 +92,7 @@ section {
     margin: auto;
   }
 
-.search {
+.search-box {
   align-items: center;
   display: flex;
   flex: 25%;
@@ -192,6 +192,7 @@ i.fa-minus-circle {
 /*Generated card styling*/
 
 .card-area {
+  display: flex;
   flex-direction: column-reverse;
 }
 
@@ -297,12 +298,12 @@ i.fa-minus-circle {
     margin: 10px;
   }
 
-  .search {
+  .search-box {
     padding: 0px;
     flex: initial;
   }
 
-  .search input {
+  .search-box input {
     min-height: 0px;
     max-height: 35px;
   }
@@ -393,11 +394,11 @@ i.fa-minus-circle {
     border-radius: 0px 5px 5px 0px;
   }
 
-  div.search i.fa-lg-open {
+  div.search-box i.fa-lg-open {
     display: none;
   }
 
-  div.search i.fa-minus-circle-open {
+  div.search-box i.fa-minus-circle-open {
     display: inline-block;
     color: #fff;
     font-size: 1.5em;
