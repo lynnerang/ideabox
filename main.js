@@ -16,7 +16,7 @@ cardArea.addEventListener('keypress', function(e) {
   if (key === 13) {
     e.preventDefault();
     let fieldId = e.target.id;
-    let cardId = parseInt(e.target.parentNode.parentNode.id);
+    let cardId = parseInt(e.target.closest('.idea-card').dataset.identifier);
     let updatedTxt = e.target.textContent;
     findObjectById(cardId).updateContent(fieldId, updatedTxt);
   }
@@ -75,7 +75,7 @@ function onSearchKeyup() {
 function onDelete(e) {
   if (e.target.classList.contains('delete-card-btn')) {
     const cardElement = e.target.closest('.idea-card');
-    const match = findObjectById(parseInt(cardElement.id));
+    const match = findObjectById(parseInt(cardElement.dataset.identifier));
     
     match.deleteFromStorage();
     cardElement.remove();
@@ -85,19 +85,19 @@ function onDelete(e) {
 //add data attribute instead of ID for card
 function displayCard(idea) {
   const qualityTxt = qualityTerms[idea.quality];
-  const html = `<article class="idea-card" id="${idea.cardId}">
+  const html = `<article class="idea-card" data-identifier="${idea.cardId}">
    <div class="card-main">
      <h2 class="title-txt" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea title" role="textbox">${idea.title}</h2>
      <p class="body-txt" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea body">${idea.body}</p>
    </div>
    <div class="card-bottom">
      <div class="card-btns">
-       <img class="btn-image downvote-btn" onclick="onVote(${idea.cardId}) aria-role="button" aria-label="Upvote idea" aria-controls="quality-txt" src="images/downvote.svg">
-       <img class="btn-image upvote-btn" onclick="onVote(${idea.cardId})" aria-role="button" aria-label="Downvote idea" aria-controls="quality-txt" src="images/upvote.svg">
+       <img class="btn-image downvote-btn" onclick="onVote(${idea.cardId})" aria-role="button" aria-label="Downvote idea" aria-controls="quality-txt" src="images/downvote.svg">
+       <img class="btn-image upvote-btn" onclick="onVote(${idea.cardId})" aria-role="button" aria-label="Upvote idea" aria-controls="quality-txt" src="images/upvote.svg">
        <h3 class="idea-quality" aria-label="idea quality">Quality: <span class="quality-txt" aria-live="polite">${qualityTxt}</span></h3>
      </div>
      <div class="delete-btn">
-       <img class="btn-image delete-card-btn" aria-role="button" aria-label="Delete idea" aria-controls="idea-card" src="images/delete.svg">
+       <img class="btn-image delete-card-btn" aria-role="button" aria-label="Delete idea" aria-controls="${idea.cardId}" src="images/delete.svg">
      </div>
    </div>
    </article>`;

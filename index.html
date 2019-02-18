@@ -33,19 +33,18 @@
       </div>
       <section class="filter-section">
         <label class="filter-label">Filter by Quality</label>
-        <div class="filter-btns">
-          <button type="button" class="filter-btn mehhh-btn" aria-label="Filter by Mehhh" aria-controls="card-area">Mehhh</button>
-          <button type="button" class="filter-btn swill-btn" aria-label="Filter by Swill" aria-controls="card-area">Swill</button>
-          <button type="button" class="filter-btn plausible-btn" aria-label="Filter by Plausible" aria-controls="card-area">Plausible</button>
-          <button type="button" class="filter-btn genius-btn" aria-label="Filter by Genius" aria-controls="card-area">Genius</button>
-          <button type="button" class="filter-btn bestest-btn" aria-label="Filter by Bestest" aria-controls="card-area">Bestest</button>
+        <div class="filter-btns" aria-label="Filtering options">
+          <button type="button" class="filter-btn mehhh-btn" aria-label="Filter by Mehhh" aria-controls="card-area" aria-pressed="false">Mehhh</button>
+          <button type="button" class="filter-btn swill-btn" aria-label="Filter by Swill" aria-controls="card-area" aria-pressed="false">Swill</button>
+          <button type="button" class="filter-btn plausible-btn" aria-label="Filter by Plausible" aria-controls="card-area" aria-pressed="false">Plausible</button>
+          <button type="button" class="filter-btn genius-btn" aria-label="Filter by Genius" aria-controls="card-area" aria-pressed="false">Genius</button>
+          <button type="button" class="filter-btn bestest-btn" aria-label="Filter by Bestest" aria-controls="card-area" aria-pressed="false">Bestest</button>
         </div>
       </section>
-      <section class="card-area" aria-label="List of ideas" aria-live="polite">
+      <section class="card-area" aria-role="list" aria-label="List of ideas" aria-live="polite">
       </section>
       <section class="btn-div">
-       <button type="button" class="show-less-btn" aria-label="Show all ideas" aria-expanded="false"
-  aria-controls="card-area">Show More...</button>
+       <button type="button" class="show-less-btn" aria-label="Show all ideas" aria-expanded="false" aria-controls="card-area">Show More...</button>
       </section>
       <script type="text/javascript" src="idea.js"></script>
       <script type="text/javascript" src="main.js"></script>
