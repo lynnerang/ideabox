@@ -1,22 +1,23 @@
-var ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
-var searchInput = document.querySelector('.search-input');
-var saveBtn = document.querySelector('.save-btn');
-var cardArea = document.querySelector('.card-area');
-var newTitle = document.getElementById('j-new-title');
-var newBody = document.getElementById('j-new-body');
-var qualityTerms = ['Mehhh', 'Swill', 'Plausible', 'Genius', 'Bestest'];
+let ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
+const searchInput = document.querySelector('.search-input');
+const searchBtn = document.querySelector('.search-btn');
+const saveBtn = document.querySelector('.save-btn');
+const cardArea = document.querySelector('.card-area');
+const newTitle = document.getElementById('j-new-title');
+const newBody = document.getElementById('j-new-body');
+const qualityTerms = ['Mehhh', 'Swill', 'Plausible', 'Genius', 'Bestest'];
 
-
-searchInput.addEventListener('keyup', onSearch);  
+searchBtn.addEventListener('click', onSearchToggle);
+searchInput.addEventListener('keyup', onSearchKeyup);  
 saveBtn.addEventListener('click', onSave);
 cardArea.addEventListener('click', onDelete);
 cardArea.addEventListener('keypress', function(e) {
-  var key = e.which || e.keyCode;
+  const key = e.which || e.keyCode;
   if (key === 13) {
     e.preventDefault();
-    var fieldId = e.target.id;
-    var cardId = parseInt(e.target.parentNode.parentNode.id);
-    var updatedTxt = e.target.textContent;
+    let fieldId = e.target.id;
+    let cardId = parseInt(e.target.parentNode.parentNode.id);
+    let updatedTxt = e.target.textContent;
     findObjectById(cardId).updateContent(fieldId, updatedTxt);
   }
 });
@@ -25,15 +26,15 @@ onPageLoad(ideaCards);
 
 function onPageLoad(array) {
   ideaCards = [];
-  array.forEach(function(idea){
-    var newCard = new ideaCard(idea.title, idea.body, idea.cardId, idea.quality);
+  array.forEach(idea => {
+    const newCard = new ideaCard(idea.title, idea.body, idea.cardId, idea.quality);
     ideaCards.push(newCard);
     displayCard(newCard);
   });
 }
 
 function onSave() {
-  var newCard = new ideaCard(newTitle.value, newBody.value, Date.now(), 0);
+  const newCard = new ideaCard(newTitle.value, newBody.value, Date.now(), 0);
   
   ideaCards.push(newCard);
   displayCard(newCard);
@@ -43,14 +44,14 @@ function onSave() {
 }
 
 function onFocusout(cardId) {
-  var updatedTxt = event.target.textContent;
-  var fieldId = event.target.id;
+  const updatedTxt = event.target.textContent;
+  const fieldId = event.target.id;
   findObjectById(cardId).updateContent(fieldId, updatedTxt);
 }
 
 function onVote(cardId) {
-  var match = findObjectById(parseInt(cardId));
-  var newQuality;
+  const match = findObjectById(parseInt(cardId));
+  let newQuality;
   
   if (event.target.classList.contains('upvote-btn')) {
     newQuality = changeQuality(match, 'increase');
@@ -61,9 +62,9 @@ function onVote(cardId) {
   event.target.parentNode.querySelector('.quality-txt').innerText = qualityTerms[newQuality];
 }
 
-function onSearch() {
+function onSearchKeyup() {
     cardArea.innerHTML = "";
-    var filteredCards = ideaCards.filter(function(idea) {
+    const filteredCards = ideaCards.filter(function(idea) {
       return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
   });
     filteredCards.forEach(function(idea) {
@@ -73,8 +74,8 @@ function onSearch() {
 
 function onDelete(e) {
   if (e.target.classList.contains('delete-card-btn')) {
-    var cardElement = e.target.closest('.idea-card');
-    var match = findObjectById(parseInt(cardElement.id));
+    const cardElement = e.target.closest('.idea-card');
+    const match = findObjectById(parseInt(cardElement.id));
     
     match.deleteFromStorage();
     cardElement.remove();
@@ -83,20 +84,20 @@ function onDelete(e) {
 
 //add data attribute instead of ID for card
 function displayCard(idea) {
-  var qualityTxt = qualityTerms[idea.quality];
-  var html = `<article class="idea-card" id="${idea.cardId}">
+  const qualityTxt = qualityTerms[idea.quality];
+  const html = `<article class="idea-card" id="${idea.cardId}">
    <div class="card-main">
-     <h2 class="title-txt" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.title}</h2>
-     <p class="body-txt" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})">${idea.body}</p>
+     <h2 class="title-txt" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea title" role="textbox">${idea.title}</h2>
+     <p class="body-txt" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea body">${idea.body}</p>
    </div>
    <div class="card-bottom">
      <div class="card-btns">
-       <img class="btn-image downvote-btn" onclick="onVote(${idea.cardId})" src="images/downvote.svg">
-       <img class="btn-image upvote-btn" onclick="onVote(${idea.cardId})" src="images/upvote.svg">
-       <h3 class="idea-quality">Quality: <span class="quality-txt">${qualityTxt}</span></h3>
+       <img class="btn-image downvote-btn" onclick="onVote(${idea.cardId}) aria-role="button" aria-label="Upvote idea" aria-controls="quality-txt" src="images/downvote.svg">
+       <img class="btn-image upvote-btn" onclick="onVote(${idea.cardId})" aria-role="button" aria-label="Downvote idea" aria-controls="quality-txt" src="images/upvote.svg">
+       <h3 class="idea-quality" aria-label="idea quality">Quality: <span class="quality-txt" aria-live="polite">${qualityTxt}</span></h3>
      </div>
      <div class="delete-btn">
-       <img class="btn-image delete-card-btn" src="images/delete.svg">
+       <img class="btn-image delete-card-btn" aria-role="button" aria-label="Delete idea" aria-controls="idea-card" src="images/delete.svg">
      </div>
    </div>
    </article>`;
@@ -104,7 +105,7 @@ function displayCard(idea) {
 }
 
 function findObjectById(id) {
-  return ideaCards.find(function(idea){return idea.cardId === id;});
+  return ideaCards.find(idea => idea.cardId === id);
 }
 
 function changeQuality(obj, direction) {
@@ -118,9 +119,9 @@ function changeQuality(obj, direction) {
 }
 
 function onKeyup() {
-  var totalChars = event.target.value.length;
-  var charLimit = parseInt(event.target.nextElementSibling.querySelector('.char-limit').innerText);
-  var charCounter = event.target.nextElementSibling.querySelector('.char-count');
+  const totalChars = event.target.value.length;
+  const charLimit = parseInt(event.target.nextElementSibling.querySelector('.char-limit').innerText);
+  const charCounter = event.target.nextElementSibling.querySelector('.char-count');
   charCounter.innerText = totalChars;
 
   showErrs(event.target, charLimit)
@@ -146,15 +147,11 @@ function showErrs(input, limit) {
   }
 }
 
-var searchBtn = document.querySelector('.search-btn');
-
-searchBtn.addEventListener('click', searchToggle);
-
-function searchToggle() {
-  var header = document.querySelector('header');
-  var searchDiv = document.querySelector('.search');
-  var searchIcon = document.querySelector('.fa-lg');
-  var closeIcon = document.querySelector('.fa-minus-circle');
+function onSearchToggle() {
+  const header = document.querySelector('header');
+  const searchDiv = document.querySelector('.search-box');
+  const searchIcon = document.querySelector('.fa-lg');
+  const closeIcon = document.querySelector('.fa-minus-circle');
 
   if (searchBtn.classList.contains('search-btn-open')) {
     searchDiv.classList.remove('search-open');

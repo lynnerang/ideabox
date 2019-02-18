@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <link rel="icon" href="images/favicon-light.png" />
     <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css" rel="stylesheet" type="text/css"/>
@@ -12,40 +12,42 @@
   <body>
     <header class="header-bar">
       <h1>ideabox<span>triples</span></h1>
-      <div class="search">
-        <input type="search " class="search-input" placeholder="Search">
-        <button type="button" class="search-btn"><i class="fas fa-search fa-lg"></i><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
+      <div aria-label="Search ideas" class="search-box">
+        <input type="search " class="search-input" placeholder="Search" aria-hidden="false">
+        <button type="button" aria-label="Search button" class="search-btn"><i class="fas fa-search fa-lg"></i><i class="fa fa-minus-circle" aria-hidden="true"></i></button>
       </div>
     </header>
-    <div class="new-idea-form">
-      <section class="form-section">
-        <form name="newIdea" class="idea-form">
-          <label for="j-new-title">Title</label>
-          <input type="text" id="j-new-title" class="idea-title-input" onkeyup="onKeyup()">
-               <!-- onkeyup="onKeyup(this.value)" -->
-          <p class="char-txt"><span class="char-count">0</span> out of <span class="char-limit">70</span> characters</p>
-          <label for="j-new-body">Body</label>
-          <textarea type="text-area" class="idea-body-input" id="j-new-body" onkeyup="onKeyup()"></textarea> 
-          <p class="char-txt"><span class="char-count">0</span> out of <span class="char-limit">120</span> characters</p>
-          <button type="button" class="save-btn" disabled>Save</button>
-        </form>
-      </section>
-    </div>
-    <section class="filter-section">
-      <label class="filter-label">Filter by Quality</label>
-      <div class="filter-btns">
-        <button type="button" class="filter-btn mehhh-btn">Mehhh</button>
-        <button type="button" class="filter-btn swill-btn">Swill</button>
-        <button type="button" class="filter-btn plausible-btn">Plausible</button>
-        <button type="button" class="filter-btn genius-btn">Genius</button>
-        <button type="button" class="filter-btn bestest-btn">Bestest</button>
+    <main>
+      <div class="new-idea-form">
+        <section class="form-section">
+          <form name="newIdea" class="idea-form" aria-role="Create new idea">
+            <label for="j-new-title">Title</label>
+            <input type="text" id="j-new-title" class="idea-title-input" onkeyup="onKeyup()" aria-label="Idea title" aria-required="true">
+            <p class="char-txt" aria-live="polite"><span class="char-count">0</span> out of <span class="char-limit">70</span> characters</p>
+            <label for="j-new-body">Body</label>
+            <textarea type="text-area" class="idea-body-input" id="j-new-body" onkeyup="onKeyup()" aria-label="idea body/description" aria-required="true"></textarea> 
+            <p class="char-txt" aria-live="polite"><span class="char-count">0</span> out of <span class="char-limit">120</span> characters</p>
+            <button type="button" class="save-btn" disabled aria-controls="idea-form" aria-label="Save new idea">Save</button>
+          </form>
+        </section>
       </div>
-    </section>
-    <section class="card-area">
-    </section>
-    <section class="btn-div">
-     <button type="button" class="show-less-btn">Show More...</button>
-    </section>
-    <script type="text/javascript" src="idea.js"></script>
-    <script type="text/javascript" src="main.js"></script>
+      <section class="filter-section">
+        <label class="filter-label">Filter by Quality</label>
+        <div class="filter-btns">
+          <button type="button" class="filter-btn mehhh-btn" aria-label="Filter by Mehhh" aria-controls="card-area">Mehhh</button>
+          <button type="button" class="filter-btn swill-btn" aria-label="Filter by Swill" aria-controls="card-area">Swill</button>
+          <button type="button" class="filter-btn plausible-btn" aria-label="Filter by Plausible" aria-controls="card-area">Plausible</button>
+          <button type="button" class="filter-btn genius-btn" aria-label="Filter by Genius" aria-controls="card-area">Genius</button>
+          <button type="button" class="filter-btn bestest-btn" aria-label="Filter by Bestest" aria-controls="card-area">Bestest</button>
+        </div>
+      </section>
+      <section class="card-area" aria-label="List of ideas" aria-live="polite">
+      </section>
+      <section class="btn-div">
+       <button type="button" class="show-less-btn" aria-label="Show all ideas" aria-expanded="false"
+  aria-controls="card-area">Show More...</button>
+      </section>
+      <script type="text/javascript" src="idea.js"></script>
+      <script type="text/javascript" src="main.js"></script>
+    </main>
   </body>
