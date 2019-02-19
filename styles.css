@@ -262,6 +262,10 @@ i.fa-minus-circle {
   border-color: darkred;
 }
 
+.hide-card {
+  display: none;
+}
+
 /*Media Queries*/
 
 @media only screen (max-width:1150px) {
