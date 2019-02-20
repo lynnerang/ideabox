@@ -1,6 +1,7 @@
 let ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
 let displayedCards;
 let cardsHidden = false;
+let buttonPressed = false;
 const searchInput = document.querySelector('.search-input');
 const searchBtn = document.querySelector('.search-btn');
 const saveBtn = document.querySelector('.save-btn');
@@ -38,9 +39,9 @@ cardArea.addEventListener('keypress', function(e) {
 });
 
 
-onPageLoad(ideaCards);
+refreshCardList(ideaCards);
 
-function onPageLoad(array) {
+function refreshCardList(array) {
   ideaCards = [];
   array.forEach(idea => {
     const newCard = new ideaCard(idea.title, idea.body, idea.cardId, idea.quality);
@@ -82,22 +83,42 @@ function onVote(cardId) {
 }
 
 function onSearchKeyup() {
-    cardArea.innerHTML = "";
-    const filteredCards = ideaCards.filter(function(idea) {
-      return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || 
-      idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
-
-    filteredCards.forEach(function(idea) {displayCard(idea)});
-    updateList();
+  clearFilters();
+  const matchingCards = ideaCards.filter(idea => {
+    return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || 
+    idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
+  });
+  cardArea.innerHTML = "";
+  matchingCards.forEach(idea => displayCard(idea));
+  updateList();
 }
 
 function onFilter(qual) {
- cardArea.innerHTML = "";
- var matchingCards = ideaCards.filter(function(card) {
-    return card.quality === qual; 
+
+  if (!event.target.classList.contains('active-btn')) {
+    clearFilters();
+    const matchingCards = ideaCards.filter(card => card.quality === qual);
+    cardArea.innerHTML = "";
+    searchInput.value = "";
+    matchingCards.forEach(card => displayCard(card));
+    event.target.classList.add('active-btn');
+    updateList();
+  } else {
+    cardArea.innerHTML = "";
+    searchInput.value = "";
+    clearFilters();
+    refreshCardList(ideaCards);
+  }
+}
+
+function clearFilters() {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    if (btn.classList.contains('active-btn')) {
+      btn.classList.remove('active-btn');
+      refreshCardList(ideaCards);
+    }
   });
- matchingCards.forEach(function(card){displayCard(card)});
- updateList();
 }
 
 function onDelete(e) {
@@ -252,9 +273,7 @@ function hideCards() {
 }
 
 function showCards() {
-  displayedCards.forEach(function(card) {
-    card.classList.remove('hide-card')
-  });
+  displayedCards.forEach(card => card.classList.remove('hide-card'));
   showBtn.innerText = "Show Less...";
   cardsHidden = false;
 }
@@ -279,7 +298,8 @@ function updateList() {
 }
 
 function checkForMrPB(title, body) {
-  if (title.toLowerCase().includes("poopy", "butthole") || body.toLowerCase().includes("poopy", "butthole")) {
+  if (title.toLowerCase().includes("poopy", "butthole") || 
+    body.toLowerCase().includes("poopy", "butthole")) {
     document.querySelector('.pb-animation').classList.add('mr-pb');
   }
 }

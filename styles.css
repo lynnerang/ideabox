@@ -180,10 +180,14 @@ i.fa-minus-circle {
   outline-color: #b2a1b1;
 }
 
+.active-btn {
+  background: #2b2728;
+}
+
 
 /*Show More/Show Less styling*/
 
-.show-more-btn {
+.show-btn {
   display: block;
   margin:  25px auto;
   width: 100%;
