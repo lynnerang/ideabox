@@ -363,6 +363,8 @@ i.fa-minus-circle {
 
   header {
     height: 60px;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   h1 {
@@ -389,10 +391,14 @@ i.fa-minus-circle {
     right: 10px;
     top: 12px;
   }
+
+  .filter-label {
+    text-align: center;
+  }
   
   .filter-btns {
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .filter-btn {
