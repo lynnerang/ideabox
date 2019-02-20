@@ -8,13 +8,24 @@ const cardArea = document.querySelector('.card-area');
 const newTitle = document.getElementById('j-new-title');
 const newBody = document.getElementById('j-new-body');
 const qualityTerms = ['Mehhh', 'Swill', 'Plausible', 'Genius', 'Bestest'];
+
 const showBtn = document.querySelector('.show-btn');
+const mehhhBtn = document.querySelector('.mehhh-btn');
+const swillBtn = document.querySelector('.swill-btn');
+const plausibleBtn = document.querySelector('.plausible-btn');
+const geniusBtn = document.querySelector('.genius-btn');
+const bestestBtn = document.querySelector('.bestest-btn');
 
 searchBtn.addEventListener('click', onSearchToggle);
 searchInput.addEventListener('keyup', onSearchKeyup);  
 saveBtn.addEventListener('click', onSave);
 cardArea.addEventListener('click', onDelete);
 showBtn.addEventListener('click', onShow);
+mehhhBtn.addEventListener('click', function() {onFilter(0)});
+swillBtn.addEventListener('click', function() {onFilter(1)});
+plausibleBtn.addEventListener('click', function() {onFilter(2)});
+geniusBtn.addEventListener('click', function() {onFilter(3)});
+bestestBtn.addEventListener('click', function() {onFilter(4)});
 cardArea.addEventListener('keypress', function(e) {
   const key = e.which || e.keyCode;
   if (key === 13) {
@@ -25,6 +36,7 @@ cardArea.addEventListener('keypress', function(e) {
     findObjectById(cardId).updateContent(fieldId, updatedTxt);
   }
 });
+
 
 onPageLoad(ideaCards);
 
@@ -74,9 +86,18 @@ function onSearchKeyup() {
     const filteredCards = ideaCards.filter(function(idea) {
       return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || 
       idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
-    });
+
     filteredCards.forEach(function(idea) {displayCard(idea)});
     updateList();
+}
+
+function onFilter(qual) {
+ cardArea.innerHTML = "";
+ var matchingCards = ideaCards.filter(function(card) {
+    return card.quality === qual; 
+  });
+ matchingCards.forEach(function(card){displayCard(card)});
+ updateList();
 }
 
 function onDelete(e) {
@@ -90,7 +111,21 @@ function onDelete(e) {
   }
 }
 
-//add data attribute instead of ID for card
+function onKeyup() {
+  const totalChars = event.target.value.length;
+  const charLimit = parseInt(event.target.nextElementSibling.querySelector('.char-limit').innerText);
+  const charCounter = event.target.nextElementSibling.querySelector('.char-count');
+  charCounter.innerText = totalChars;
+
+  showErrs(event.target, charLimit)
+
+  if (validLength(newTitle, 70) && validLength(newBody, 120)) {
+    saveBtn.disabled = false;
+  } else {
+    saveBtn.disabled = true;
+  }
+}
+
 function displayCard(idea) {
   const qualityTxt = qualityTerms[idea.quality];
   const html = `<article class="idea-card" data-identifier="${idea.cardId}">
@@ -116,10 +151,6 @@ function findObjectById(id) {
   return ideaCards.find(idea => idea.cardId === id);
 } 
 
-// function findObjectsByQuality(qual) {
-//   return ideaCards.filter(idea => idea.quality === qual);
-// }
-
 function changeQuality(obj, direction) {
   if (direction === 'increase' && obj.quality < 4) {
     return obj.quality + 1;
@@ -127,21 +158,6 @@ function changeQuality(obj, direction) {
     return obj.quality - 1;
   } else {
     return obj.quality;
-  }
-}
-
-function onKeyup() {
-  const totalChars = event.target.value.length;
-  const charLimit = parseInt(event.target.nextElementSibling.querySelector('.char-limit').innerText);
-  const charCounter = event.target.nextElementSibling.querySelector('.char-count');
-  charCounter.innerText = totalChars;
-
-  showErrs(event.target, charLimit)
-
-  if (validLength(newTitle, 70) && validLength(newBody, 120)) {
-    saveBtn.disabled = false;
-  } else {
-    saveBtn.disabled = true;
   }
 }
 
