@@ -20,6 +20,7 @@
     <main>
       <div class="new-idea-form">
         <section class="form-section">
+          <div class="pb-animation"><img src="images/mrpb.png"></div>
           <form name="newIdea" class="idea-form" aria-role="Create new idea">
             <label for="j-new-title">Title</label>
             <input type="text" id="j-new-title" class="idea-title-input" onkeyup="onKeyup()" aria-label="Idea title" aria-required="true">
@@ -44,7 +45,7 @@
       <section class="card-area" aria-role="list" aria-label="List of ideas" aria-live="polite">
       </section>
       <section class="btn-div">
-       <button type="button" class="show-less-btn" aria-label="Show all ideas" aria-expanded="false" aria-controls="card-area">Show Less...</button>
+       <button type="button" class="show-btn hidden" aria-label="Show all ideas" aria-expanded="false" aria-controls="card-area">Show More...</button>
       </section>
       <script type="text/javascript" src="idea.js"></script>
       <script type="text/javascript" src="main.js"></script>

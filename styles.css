@@ -180,13 +180,21 @@ i.fa-minus-circle {
   outline-color: #b2a1b1;
 }
 
+.active-btn {
+  background: #2b2728;
+}
+
 
 /*Show More/Show Less styling*/
 
-.show-less-btn {
+.show-btn {
   display: block;
   margin:  25px auto;
   width: 100%;
+}
+
+.hidden {
+  display: none;
 }
 
 /*Generated card styling*/
@@ -266,8 +274,31 @@ i.fa-minus-circle {
   display: none;
 }
 
-/*Media Queries*/
 
+/*Animation*/ 
+.pb-animation img {
+  left: -400px;
+  position: absolute;
+  top: -40px;
+  width: 300px;
+  z-index: 1;
+}
+
+.mr-pb {
+    animation: fly 4s linear;
+}
+
+@keyframes fly {
+  0% {
+      transform: translate(2000px, 0px);
+  }
+  100% {
+      transform: translate(-300px, 0px);
+  }
+}
+
+
+/*Media Queries*/
 @media only screen (max-width:1150px) {
   section {
     width: 60%;
