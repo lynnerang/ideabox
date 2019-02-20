@@ -1,4 +1,4 @@
-# Static Comp #2 Challenge
+# IdeaBox Triples
 
 ## Table of contents
 * [General Info](#General-Info)
