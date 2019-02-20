@@ -33,7 +33,7 @@ Here's the comp we were given:
 ## Screenshots
 
 <img src="https://user-images.githubusercontent.com/43159025/53117304-d40a5180-3507-11e9-98c7-9ab7e78dccfc.png" alt="Desktop">
-<img src="https://github.com/lynnerang/lr-comp-challenge-2/blob/master/screenshots/Mobile1.png" alt="Top of website on mobile">
+<img src="https://user-images.githubusercontent.com/43159025/53121286-213ef100-3511-11e9-8f14-946655a04c1b.png" alt="Top of website on mobile">
 
 
 ## Features
