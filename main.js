@@ -1,4 +1,6 @@
 let ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
+let displayedCards;
+let cardsHidden = false;
 const searchInput = document.querySelector('.search-input');
 const searchBtn = document.querySelector('.search-btn');
 const saveBtn = document.querySelector('.save-btn');
@@ -6,13 +8,13 @@ const cardArea = document.querySelector('.card-area');
 const newTitle = document.getElementById('j-new-title');
 const newBody = document.getElementById('j-new-body');
 const qualityTerms = ['Mehhh', 'Swill', 'Plausible', 'Genius', 'Bestest'];
-const showLessBtn = document.querySelector('.show-less-btn');
+const showBtn = document.querySelector('.show-btn');
 
 searchBtn.addEventListener('click', onSearchToggle);
 searchInput.addEventListener('keyup', onSearchKeyup);  
 saveBtn.addEventListener('click', onSave);
 cardArea.addEventListener('click', onDelete);
-showLessBtn.addEventListener('click', showMoreLess);
+showBtn.addEventListener('click', onShow);
 cardArea.addEventListener('keypress', function(e) {
   const key = e.which || e.keyCode;
   if (key === 13) {
@@ -33,6 +35,8 @@ function onPageLoad(array) {
     ideaCards.push(newCard);
     displayCard(newCard);
   });
+  updateList();
+  onShow();
 }
 
 function onSave() {
@@ -41,8 +45,9 @@ function onSave() {
   ideaCards.push(newCard);
   displayCard(newCard);
   newCard.saveToStorage();
-  newTitle.value = "";
-  newBody.value = "";
+  checkForMrPB(newTitle.value, newBody.value);
+  resetForm();
+  updateList();
 }
 
 function onFocusout(cardId) {
@@ -67,11 +72,11 @@ function onVote(cardId) {
 function onSearchKeyup() {
     cardArea.innerHTML = "";
     const filteredCards = ideaCards.filter(function(idea) {
-      return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
-  });
-    filteredCards.forEach(function(idea) {
-    displayCard(idea);
-  })
+      return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || 
+      idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
+    });
+    filteredCards.forEach(function(idea) {displayCard(idea)});
+    updateList();
 }
 
 function onDelete(e) {
@@ -81,6 +86,7 @@ function onDelete(e) {
     
     match.deleteFromStorage();
     cardElement.remove();
+    updateList();
   }
 }
 
@@ -94,8 +100,8 @@ function displayCard(idea) {
    </div>
    <div class="card-bottom">
      <div class="card-btns">
-       <img class="btn-image downvote-btn" onclick="onVote(${idea.cardId})" aria-role="button" aria-label="Downvote idea" aria-controls="quality-txt" src="images/downvote.svg">
-       <img class="btn-image upvote-btn" onclick="onVote(${idea.cardId})" aria-role="button" aria-label="Upvote idea" aria-controls="quality-txt" src="images/upvote.svg">
+       <img class="btn-image downvote-btn" onclick="onVote(${idea.cardId})" aria-role="button" aria-label="Downvote this idea" aria-controls="quality-txt" src="images/downvote.svg">
+       <img class="btn-image upvote-btn" onclick="onVote(${idea.cardId})" aria-role="button" aria-label="Upvote this idea" aria-controls="quality-txt" src="images/upvote.svg">
        <h3 class="idea-quality" aria-label="idea quality">Quality: <span class="quality-txt" aria-live="polite">${qualityTxt}</span></h3>
      </div>
      <div class="delete-btn">
@@ -108,7 +114,11 @@ function displayCard(idea) {
 
 function findObjectById(id) {
   return ideaCards.find(idea => idea.cardId === id);
-}
+} 
+
+// function findObjectsByQuality(qual) {
+//   return ideaCards.filter(idea => idea.quality === qual);
+// }
 
 function changeQuality(obj, direction) {
   if (direction === 'increase' && obj.quality < 4) {
@@ -149,6 +159,14 @@ function showErrs(input, limit) {
   }
 }
 
+function resetForm() {
+  newTitle.value = "";
+  newBody.value = "";
+  saveBtn.disabled = true;
+  const counts = Array.from(document.querySelectorAll('.char-count'));
+  counts.forEach(count => count.innerText = "0");
+}
+
 function onSearchToggle() {
   const header = document.querySelector('header');
   const searchDiv = document.querySelector('.search-box');
@@ -172,30 +190,82 @@ function onSearchToggle() {
   }
 }
 
-function showMoreLess() {
-  const hiddenCards = document.querySelectorAll('.hide-card');
-  if (hiddenCards.length > 0) {
-    showCards(hiddenCards);
-  } else {
+// function showMoreLess() {
+//   const hiddenCards = document.querySelectorAll('.hide-card');
+//   if (hiddenCards.length > 0) {
+//     showCards(hiddenCards);
+//     showMoreBtn.innerText = "Show Less...";
+//   } else {
+//     hideCards();
+//   }
+// }
+
+// function hideCards() {
+//   const allCards = document.querySelectorAll('.idea-card');
+//   for(var i = 0; i < allCards.length; i++) {
+//     if (i >= 10) {
+//       allCards[i - 10].classList.add('hide-card');
+//       showMoreBtn.innerText = "Show More...";
+//     }
+//   }
+// }
+
+// function showCards(hiddenCards) {
+//   hiddenCards.forEach(function(card) {
+//     card.classList.remove('hide-card');
+//   });
+//   showMoreBtn.innerText = "Show Less...";
+// }
+
+
+function onShow() {
+  if (cardsHidden === false) {
     hideCards();
+  } else {
+    showCards();
   }
+  updateList();
 }
 
 function hideCards() {
-  const allCards = document.querySelectorAll('.idea-card');
-  for(var i = 0; i < allCards.length; i++) {
-    if(i >= 10){
-      allCards[i - 10].classList.add('hide-card');
-    }
+  for (var i = 0; i < (displayedCards.length - 10); i++) {
+    displayedCards[i].classList.add('hide-card');
   }
-  showLessBtn.innerText = "Show More...";
+  showBtn.innerText = "Show More...";
+  cardsHidden = true;
 }
 
-function showCards(hiddenCards) {
-  hiddenCards.forEach(function(card) {
-    card.classList.remove('hide-card');
+function showCards() {
+  displayedCards.forEach(function(card) {
+    card.classList.remove('hide-card')
   });
-  showLessBtn.innerText = "Show Less...";
+  showBtn.innerText = "Show Less...";
+  cardsHidden = false;
+}
+
+function setShowBtnVisibility() {
+  if (overTenCards() === false) {
+    showBtn.classList.add('hidden');
+  } else if (overTenCards() === true && cardsHidden === true) {
+    showBtn.classList.remove('hidden');
+  } else if (overTenCards() === true && cardsHidden === false) {
+    showBtn.classList.remove('hidden');
+  }
+}
+
+function overTenCards() {
+  return displayedCards.length > 10;
+}
+
+function updateList() {
+  displayedCards = document.querySelectorAll('.idea-card');
+  setShowBtnVisibility();
+}
+
+function checkForMrPB(title, body) {
+  if (title.toLowerCase().includes("poopy", "butthole") || body.toLowerCase().includes("poopy", "butthole")) {
+    document.querySelector('.pb-animation').classList.add('mr-pb');
+  }
 }
 
 
