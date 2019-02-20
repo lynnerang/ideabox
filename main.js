@@ -7,12 +7,33 @@ const newTitle = document.getElementById('j-new-title');
 const newBody = document.getElementById('j-new-body');
 const qualityTerms = ['Mehhh', 'Swill', 'Plausible', 'Genius', 'Bestest'];
 const showLessBtn = document.querySelector('.show-less-btn');
+const mehhhBtn = document.querySelector('.mehhh-btn');
+const swillBtn = document.querySelector('.swill-btn');
+const plausibleBtn = document.querySelector('.plausible-btn');
+const geniusBtn = document.querySelector('.genius-btn');
+const bestestBtn = document.querySelector('.bestest-btn');
 
 searchBtn.addEventListener('click', onSearchToggle);
 searchInput.addEventListener('keyup', onSearchKeyup);  
 saveBtn.addEventListener('click', onSave);
 cardArea.addEventListener('click', onDelete);
 showLessBtn.addEventListener('click', showMoreLess);
+mehhhBtn.addEventListener('click', function() {onFilter(0)});
+swillBtn.addEventListener('click', function() {onFilter(1)});
+plausibleBtn.addEventListener('click', function() {onFilter(2)});
+geniusBtn.addEventListener('click', function() {onFilter(3)});
+bestestBtn.addEventListener('click', function() {onFilter(4)});
+  
+function onFilter(qual) {
+ cardArea.innerHTML = "";
+ var matchingCards = ideaCards.filter(function(card){
+    return card.quality === qual; 
+  });
+ matchingCards.forEach(function(card){
+  displayCard(card);
+ });
+}
+
 cardArea.addEventListener('keypress', function(e) {
   const key = e.which || e.keyCode;
   if (key === 13) {
@@ -67,7 +88,8 @@ function onVote(cardId) {
 function onSearchKeyup() {
     cardArea.innerHTML = "";
     const filteredCards = ideaCards.filter(function(idea) {
-      return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
+      return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || 
+      idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
   });
     filteredCards.forEach(function(idea) {
     displayCard(idea);
