@@ -11,7 +11,7 @@
 
 ## General Info
 
-<h4 align="middle">A project where we built an application that for recording and archiving our good ideas for Turing's Front-End Engineering course, Module 1.</h4>
+<h4 align="middle">A project where we built an application for recording and archiving our good ideas for Turing's Front-End Engineering course, Module 1.</h4>
 
 
 ## Motivation
