@@ -1,15 +1,13 @@
 let ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
-let displayedCards;
+let currentCardList;
 let cardsHidden = false;
-let buttonPressed = false;
+const qualityTerms = ['Mehhh', 'Swill', 'Plausible', 'Genius', 'Bestest'];
 const searchInput = document.querySelector('.search-input');
 const searchBtn = document.querySelector('.search-btn');
 const saveBtn = document.querySelector('.save-btn');
 const cardArea = document.querySelector('.card-area');
 const newTitle = document.getElementById('j-new-title');
 const newBody = document.getElementById('j-new-body');
-const qualityTerms = ['Mehhh', 'Swill', 'Plausible', 'Genius', 'Bestest'];
-
 const showBtn = document.querySelector('.show-btn');
 const mehhhBtn = document.querySelector('.mehhh-btn');
 const swillBtn = document.querySelector('.swill-btn');
@@ -39,17 +37,16 @@ cardArea.addEventListener('keypress', function(e) {
 });
 
 
-refreshCardList(ideaCards);
+restoreAllCards(ideaCards);
 
-function refreshCardList(array) {
+function restoreAllCards(array) {
   ideaCards = [];
   array.forEach(idea => {
     const newCard = new ideaCard(idea.title, idea.body, idea.cardId, idea.quality);
     ideaCards.push(newCard);
     displayCard(newCard);
   });
-  updateDisplayedCardList();
-  onShow();
+  updateCurrentCardList();
 }
 
 function onSave() {
@@ -60,7 +57,7 @@ function onSave() {
   newCard.saveToStorage();
   checkForMrPB(newTitle.value, newBody.value);
   resetForm();
-  updateDisplayedCardList();
+  updateCurrentCardList();
 }
 
 function onFocusout(cardId) {
@@ -83,29 +80,28 @@ function onVote(cardId) {
 }
 
 function onSearchKeyup() {
-  clearFilters();
+  clearFilterStyles();
   const matchingCards = ideaCards.filter(idea => {
     return idea.body.toLowerCase().includes(searchInput.value.toLowerCase()) || 
     idea.title.toLowerCase().includes(searchInput.value.toLowerCase());
   });
   cardArea.innerHTML = "";
   matchingCards.forEach(idea => displayCard(idea));
-  updateDisplayedCardList();
+  updateCurrentCardList();
 }
 
 function onFilter(qual) {
+  clearIdeasAndSearch();
   if (!event.target.classList.contains('active-btn')) {
-    clearFilters();
+    clearFilterStyles();
     const matchingCards = ideaCards.filter(card => card.quality === qual);
-    clearIdeasAndSearch();
     matchingCards.forEach(card => displayCard(card));
     event.target.classList.add('active-btn');
-    updateDisplayedCardList();
   } else {
-    clearIdeasAndSearch();
-    clearFilters();
-    refreshCardList(ideaCards);
+    clearFilterStyles();
+    restoreAllCards(ideaCards);
   }
+  updateCurrentCardList();
 }
 
 function onShow() {
@@ -114,7 +110,6 @@ function onShow() {
   } else {
     showCards();
   }
-  updateDisplayedCardList();
 }
 
 function onDelete(e) {
@@ -124,7 +119,6 @@ function onDelete(e) {
     
     match.deleteFromStorage();
     cardElement.remove();
-    updateDisplayedCardList();
   }
 }
 
@@ -223,52 +217,47 @@ function resetForm() {
   counts.forEach(count => count.innerText = "0");
 }
 
-function clearFilters() {
+function clearFilterStyles() {
   const filterBtns = document.querySelectorAll('.filter-btn');
   filterBtns.forEach(btn => {
     if (btn.classList.contains('active-btn')) {
       btn.classList.remove('active-btn');
-      refreshCardList(ideaCards);
     }
   });
 }
 
 function clearIdeasAndSearch() {
-    cardArea.innerHTML = "";
-    searchInput.value = "";
+  cardArea.innerHTML = "";
+  searchInput.value = "";
 }
 
 function hideCards() {
-  for (var i = 0; i < (displayedCards.length - 10); i++) {
-    displayedCards[i].classList.add('hide-card');
+  for (var i = 0; i < (currentCardList.length - 10); i++) {
+    currentCardList[i].classList.add('hide-card');
   }
   showBtn.innerText = "Show More...";
   cardsHidden = true;
 }
 
 function showCards() {
-  displayedCards.forEach(card => card.classList.remove('hide-card'));
+  currentCardList.forEach(card => card.classList.remove('hide-card'));
   showBtn.innerText = "Show Less...";
   cardsHidden = false;
 }
 
-function setShowBtnVisibility() {
+function overTenCards() {
+  return currentCardList.length > 10;
+}
+
+function updateCurrentCardList() {
+  currentCardList = document.querySelectorAll('.idea-card');
+  hideCards();
+
   if (overTenCards() === false) {
     showBtn.classList.add('hidden');
-  } else if (overTenCards() === true && cardsHidden === true) {
-    showBtn.classList.remove('hidden');
-  } else if (overTenCards() === true && cardsHidden === false) {
+  } else {
     showBtn.classList.remove('hidden');
   }
-}
-
-function overTenCards() {
-  return displayedCards.length > 10;
-}
-
-function updateDisplayedCardList() {
-  displayedCards = document.querySelectorAll('.idea-card');
-  setShowBtnVisibility();
 }
 
 function checkForMrPB(title, body) {
