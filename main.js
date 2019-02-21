@@ -48,7 +48,7 @@ function refreshCardList(array) {
     ideaCards.push(newCard);
     displayCard(newCard);
   });
-  updateList();
+  updateDisplayedCardList();
   onShow();
 }
 
@@ -60,7 +60,7 @@ function onSave() {
   newCard.saveToStorage();
   checkForMrPB(newTitle.value, newBody.value);
   resetForm();
-  updateList();
+  updateDisplayedCardList();
 }
 
 function onFocusout(cardId) {
@@ -90,35 +90,31 @@ function onSearchKeyup() {
   });
   cardArea.innerHTML = "";
   matchingCards.forEach(idea => displayCard(idea));
-  updateList();
+  updateDisplayedCardList();
 }
 
 function onFilter(qual) {
-
   if (!event.target.classList.contains('active-btn')) {
     clearFilters();
     const matchingCards = ideaCards.filter(card => card.quality === qual);
-    cardArea.innerHTML = "";
-    searchInput.value = "";
+    clearIdeasAndSearch();
     matchingCards.forEach(card => displayCard(card));
     event.target.classList.add('active-btn');
-    updateList();
+    updateDisplayedCardList();
   } else {
-    cardArea.innerHTML = "";
-    searchInput.value = "";
+    clearIdeasAndSearch();
     clearFilters();
     refreshCardList(ideaCards);
   }
 }
 
-function clearFilters() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  filterBtns.forEach(btn => {
-    if (btn.classList.contains('active-btn')) {
-      btn.classList.remove('active-btn');
-      refreshCardList(ideaCards);
-    }
-  });
+function onShow() {
+  if (cardsHidden === false) {
+    hideCards();
+  } else {
+    showCards();
+  }
+  updateDisplayedCardList();
 }
 
 function onDelete(e) {
@@ -128,7 +124,7 @@ function onDelete(e) {
     
     match.deleteFromStorage();
     cardElement.remove();
-    updateList();
+    updateDisplayedCardList();
   }
 }
 
@@ -147,9 +143,32 @@ function onKeyup() {
   }
 }
 
+function onSearchToggle() {
+  const header = document.querySelector('header');
+  const searchDiv = document.querySelector('.search-box');
+  const searchIcon = document.querySelector('.fa-lg');
+  const closeIcon = document.querySelector('.fa-minus-circle');
+
+  if (searchBtn.classList.contains('search-btn-open')) {
+    searchDiv.classList.remove('search-open');
+    searchIcon.classList.remove('fa-lg-open');
+    closeIcon.classList.remove('fa-minus-circle-open');
+    header.classList.remove('header-open');
+    searchInput.classList.remove('search-input-open');
+    searchBtn.classList.remove('search-btn-open');
+  } else {
+    searchDiv.classList.add('search-open');
+    searchIcon.classList.add('fa-lg-open');
+    closeIcon.classList.add('fa-minus-circle-open');
+    header.classList.add('header-open');
+    searchInput.classList.add('search-input-open');
+    searchBtn.classList.add('search-btn-open');
+  }
+}
+
 function displayCard(idea) {
   const qualityTxt = qualityTerms[idea.quality];
-  const html = `<article class="idea-card" data-identifier="${idea.cardId}">
+  const html = `<article class="idea-card animated flash" data-identifier="${idea.cardId}">
    <div class="card-main">
      <h2 class="title-txt" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea title" role="textbox">${idea.title}</h2>
      <p class="body-txt" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea body">${idea.body}</p>
@@ -204,64 +223,19 @@ function resetForm() {
   counts.forEach(count => count.innerText = "0");
 }
 
-function onSearchToggle() {
-  const header = document.querySelector('header');
-  const searchDiv = document.querySelector('.search-box');
-  const searchIcon = document.querySelector('.fa-lg');
-  const closeIcon = document.querySelector('.fa-minus-circle');
-
-  if (searchBtn.classList.contains('search-btn-open')) {
-    searchDiv.classList.remove('search-open');
-    searchIcon.classList.remove('fa-lg-open');
-    closeIcon.classList.remove('fa-minus-circle-open');
-    header.classList.remove('header-open');
-    searchInput.classList.remove('search-input-open');
-    searchBtn.classList.remove('search-btn-open');
-  } else {
-    searchDiv.classList.add('search-open');
-    searchIcon.classList.add('fa-lg-open');
-    closeIcon.classList.add('fa-minus-circle-open');
-    header.classList.add('header-open');
-    searchInput.classList.add('search-input-open');
-    searchBtn.classList.add('search-btn-open');
-  }
+function clearFilters() {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    if (btn.classList.contains('active-btn')) {
+      btn.classList.remove('active-btn');
+      refreshCardList(ideaCards);
+    }
+  });
 }
 
-// function showMoreLess() {
-//   const hiddenCards = document.querySelectorAll('.hide-card');
-//   if (hiddenCards.length > 0) {
-//     showCards(hiddenCards);
-//     showMoreBtn.innerText = "Show Less...";
-//   } else {
-//     hideCards();
-//   }
-// }
-
-// function hideCards() {
-//   const allCards = document.querySelectorAll('.idea-card');
-//   for(var i = 0; i < allCards.length; i++) {
-//     if (i >= 10) {
-//       allCards[i - 10].classList.add('hide-card');
-//       showMoreBtn.innerText = "Show More...";
-//     }
-//   }
-// }
-
-// function showCards(hiddenCards) {
-//   hiddenCards.forEach(function(card) {
-//     card.classList.remove('hide-card');
-//   });
-//   showMoreBtn.innerText = "Show Less...";
-// }
-
-
-function onShow() {
-  if (cardsHidden === false) {
-    hideCards();
-  } else {
-    showCards();
-  }
-  updateList();
+function clearIdeasAndSearch() {
+    cardArea.innerHTML = "";
+    searchInput.value = "";
 }
 
 function hideCards() {
@@ -292,7 +266,7 @@ function overTenCards() {
   return displayedCards.length > 10;
 }
 
-function updateList() {
+function updateDisplayedCardList() {
   displayedCards = document.querySelectorAll('.idea-card');
   setShowBtnVisibility();
 }
