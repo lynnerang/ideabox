@@ -61,8 +61,8 @@ function onSave() {
 }
 
 function onFocusout(cardId) {
-  const updatedTxt = event.target.textContent;
-  const fieldId = event.target.id;
+  let updatedTxt = event.target.textContent;
+  let fieldId = event.target.id;
   findObjectById(cardId).updateContent(fieldId, updatedTxt);
 }
 
@@ -164,8 +164,8 @@ function displayCard(idea) {
   const qualityTxt = qualityTerms[idea.quality];
   const html = `<article class="idea-card animated flash" data-identifier="${idea.cardId}">
    <div class="card-main">
-     <h2 class="title-txt" id="cardTitle" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea title" role="textbox">${idea.title}</h2>
-     <p class="body-txt" id="cardBody" contenteditable="true" onfocusout="onFocusOut(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea body">${idea.body}</p>
+     <h2 class="title-txt" id="cardTitle" contenteditable="true" onfocusout="onFocusout(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea title" role="textbox">${idea.title}</h2>
+     <p class="body-txt" id="cardBody" contenteditable="true" onfocusout="onFocusout(${idea.cardId})" aria-live="polite" aria-label="Add text or type / to add or edit idea body">${idea.body}</p>
    </div>
    <div class="card-bottom">
      <div class="card-btns">
