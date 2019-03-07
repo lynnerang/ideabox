@@ -1,4 +1,4 @@
-class ideaCard {
+class IdeaCard {
   constructor(title, body, cardId, quality) {
     this.title = title;
     this.body = body;
@@ -21,7 +21,6 @@ class ideaCard {
 
   deleteFromStorage() {
     var matchIndex = ideaCards.indexOf(this);
-
     ideaCards.splice(matchIndex, 1);
     this.saveToStorage();
   }
