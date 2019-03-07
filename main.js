@@ -1,4 +1,5 @@
 let ideaCards = JSON.parse(localStorage.getItem("ideaCards")) || [];
+let currentCardList = document.querySelectorAll('.idea-card');
 const qualityTerms = Array.from(document.querySelectorAll('.filter-btn')).map(btn => btn.innerText);
 const searchInput = document.querySelector('.search-input');
 const newTitle = document.getElementById('j-new-title');
@@ -7,7 +8,6 @@ const saveBtn = document.querySelector('.save-btn');
 const filters = document.querySelector('.filter-btns');
 const cardArea = document.querySelector('.card-area');
 const showBtn = document.querySelector('.show-btn');
-let currentCardList;
 let cardsHidden = false;
 
 const displayAllCards = () => {
@@ -34,23 +34,14 @@ const onFocusout = (e) => {
   }
 }
 
-const onAreaClick = () => {
-  const target = event.target;
-  const obj = findObjectById(parseInt(target.closest('.idea-card').id));
-  if (target.classList.contains('delete-card-btn')) {
-    target.closest('.idea-card').remove();
+const onAreaClick = (e) => {
+  const obj = findObjectById(parseInt(e.target.closest('.idea-card').id));
+  if (e.target.classList.contains('delete-card-btn')) {
+    e.target.closest('.idea-card').remove();
     obj.deleteFromStorage();
-  } else if (target.classList.contains('btn-image')) {
-    voteCard(target, obj);
+  } else if (e.target.classList.contains('btn-image')) {
+    voteCard(e.target, obj);
   }
-}
-
-const voteCard = (target, obj) => {
-  let newQuality;
-  target.classList.contains('upvote-btn') ? newQuality = changeQuality(obj, 'inc')
-    : newQuality = changeQuality(obj);
-  obj.updateQuality(newQuality);  
-  target.parentNode.querySelector('.quality-txt').innerText = qualityTerms[newQuality];
 }
 
 const onSearchKeyup = () => {
@@ -62,19 +53,6 @@ const onSearchKeyup = () => {
   });
   cardArea.innerHTML = '';
   matchingCards.forEach(idea => displayCard(idea));
-  updateCurrentCardList();
-}
-
-const runFilter = qual => {
-  clearIdeasAndSearch();
-  if (!event.target.classList.contains('active-btn')) {
-    clearFilterStyles();
-    ideaCards.filter(card => card.quality === qual).forEach(card => displayCard(card));
-    event.target.classList.add('active-btn');
-  } else {
-    clearFilterStyles();
-    displayAllCards();
-  }
   updateCurrentCardList();
 }
 
@@ -120,6 +98,14 @@ const displayCard = idea => {
 
 const findObjectById = id => ideaCards.find(idea => idea.cardId === id);
 
+const voteCard = (target, obj) => {
+  let newQuality;
+  target.classList.contains('upvote-btn') ? newQuality = changeQuality(obj, 'inc')
+    : newQuality = changeQuality(obj);
+  obj.updateQuality(newQuality);  
+  target.parentNode.querySelector('.quality-txt').innerText = qualityTerms[newQuality];
+}
+
 const changeQuality = (obj, direction) => {
   if (direction === 'inc' && obj.quality < 4) {
     return obj.quality + 1;
@@ -128,6 +114,19 @@ const changeQuality = (obj, direction) => {
   } else {
     return obj.quality;
   }
+}
+
+const runFilter = qual => {
+  clearIdeasAndSearch();
+  if (!event.target.classList.contains('active-btn')) {
+    clearFilterStyles();
+    ideaCards.filter(card => card.quality === qual).forEach(card => displayCard(card));
+    event.target.classList.add('active-btn');
+  } else {
+    clearFilterStyles();
+    displayAllCards();
+  }
+  updateCurrentCardList();
 }
 
 const validLength = (input, limit) => input.value.length > 0 && input.value.length <= limit;
