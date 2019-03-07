@@ -1,0 +1,22 @@
+{
+  "name": "ideabox",
+  "version": "1.0.0",
+  "description": "## Table of contents * [General Info](#General-Info) * [Motivation](#Motivation) * [Built With](#Built-With)  * [Screenshots](#Screenshots) * [How to Use](#How-to-Use) * [Setup](#Setup) * [License](#License)",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lynnerang/ideabox.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lynnerang/ideabox/issues"
+  },
+  "homepage": "https://github.com/lynnerang/ideabox#readme",
+  "devDependencies": {
+    "eslint": "^5.15.1"
+  }
+}
